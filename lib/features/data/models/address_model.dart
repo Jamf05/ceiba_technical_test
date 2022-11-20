@@ -1,54 +1,53 @@
 import 'package:ceiba_technical_test/features/domain/entities/address_entity.dart';
+import 'package:ceiba_technical_test/features/domain/entities/lat_lng.dart';
 
 class AddressModel extends AddressEntity {
   const AddressModel({
-    int? id,
-    bool? selected = false,
-    String? name = "",
-  }) : super(id: id, selected: selected, name: name);
+    String? street,
+    String? suite,
+    String? city,
+    String? zipcode,
+    LatLng? geo,
+  }) : super(
+          street: street,
+          suite: suite,
+          city: city,
+          zipcode: zipcode,
+          geo: geo,
+        );
 
   factory AddressModel.cast(AddressEntity? e) {
     return AddressModel(
-      id: e?.id,
-      selected: e?.selected,
-      name: e?.name,
+      street: e?.street,
+      suite: e?.suite,
+      city: e?.city,
+      zipcode: e?.zipcode,
+      geo: e?.geo,
     );
   }
 
   AddressModel copyWithModel({
-    int? id,
-    bool? selected,
-    String? name,
+    String? street,
+    String? suite,
+    String? city,
+    String? zipcode,
+    LatLng? geo,
   }) {
     return AddressModel(
-      id: id ?? this.id,
-      selected: selected ?? this.selected,
-      name: name ?? this.name,
+      street: street ?? this.street,
+      suite: suite ?? this.suite,
+      city: city ?? this.city,
+      zipcode: zipcode ?? this.zipcode,
+      geo: geo ?? this.geo,
     );
   }
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
-        id: int.tryParse(json["id"].toString()),
-        selected: json["selected"] == true,
-        name: json["name"],
+        street: json["street"],
+        suite: json["suite"],
+        city: json["city"],
+        zipcode: json["zipcode"],
+        geo: LatLng(double.tryParse(json["lat"].toString()),
+            double.tryParse(json["lng"].toString())),
       );
-
-  factory AddressModel.fromQuery(Map<String, dynamic> query) {
-    return AddressModel(
-        id: int.tryParse(query["id"].toString()),
-        selected: query["selected"] == 1,
-        name: query["name"]);
-  }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "selected": selected,
-        "name": name,
-      };
-
-  Map<String, dynamic> toQuery() => {
-        "id": id,
-        "selected": selected == true ? 1 : 0,
-        "name": name,
-      };
 }

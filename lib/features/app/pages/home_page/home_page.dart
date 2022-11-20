@@ -63,33 +63,32 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
           },
           builder: (context, state) {
             if (bloc.isLoadingPage) return const CircularProgressWidget();
-            return Stack(
-              children: [
-                SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 23),
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        labelText: "Buscar usuario",
-                        onChanged: (String v) =>
-                            bloc.query = bloc.query.copyWith(v),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ...List.generate(
-                          bloc.filteredList.length,
-                          (i) => UserCardWidget(
-                                user: bloc.filteredList[i],
-                                onPressed: () => nav.to(const PublicationsListPage()),
-                              ))
-                    ],
-                  ),
+            return RefreshIndicator(
+              onRefresh: () async => bloc.add(const GetUserDataEvent()),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 23),
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                      labelText: "Buscar usuario",
+                      onChanged: (String v) =>
+                          bloc.query = bloc.query.copyWith(v),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ...List.generate(
+                        bloc.filteredList.length,
+                        (i) => UserCardWidget(
+                              user: bloc.filteredList[i],
+                              onPressed: () => nav.to(const PublicationsListPage()),
+                            ))
+                  ],
                 ),
-              ],
+              ),
             );
           },
         ));

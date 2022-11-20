@@ -1,27 +1,42 @@
+import 'package:ceiba_technical_test/features/domain/entities/lat_lng.dart';
 import 'package:equatable/equatable.dart';
 
 class AddressEntity extends Equatable {
-  final int? id;
-  final bool? selected;
-  final String? name;
-  const AddressEntity({this.id, this.selected = false, this.name = ""});
+  final String? street;
+  final String? suite;
+  final String? city;
+  final String? zipcode;
+  final LatLng? geo;
+  const AddressEntity({
+    this.street,
+    this.suite,
+    this.city,
+    this.zipcode,
+    this.geo,
+  });
 
   AddressEntity copyWith({
-    int? id,
-    bool? selected,
-    String? name,
+    String? street,
+    String? suite,
+    String? city,
+    String? zipcode,
+    LatLng? geo,
   }) {
     return AddressEntity(
-      id: id ?? this.id,
-      selected: selected ?? this.selected,
-      name: name ?? this.name,
+      street: street ?? this.street,
+      suite: suite ?? this.suite,
+      city: city ?? this.city,
+      zipcode: zipcode ?? this.zipcode,
+      geo: geo ?? this.geo,
     );
   }
-  
+
   @override
   List<Object?> get props => [
-        id,
-        selected,
-        name,
+        street,
+        suite,
+        city,
+        zipcode,
+        geo,
       ];
 }

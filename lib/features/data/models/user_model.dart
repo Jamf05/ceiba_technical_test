@@ -1,66 +1,84 @@
 import 'package:ceiba_technical_test/features/data/models/address_model.dart';
+import 'package:ceiba_technical_test/features/data/models/company_model.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
-  const UserModel(
-      {int? id,
-      String? name,
-      String? surname,
-      AddressModel? address,
-      DateTime? birthday})
-      : super(
-            id: id,
-            name: name,
-            surname: surname,
-            address: address,
-            birthday: birthday);
+  const UserModel({
+    int? id,
+    String? name,
+    String? username,
+    String? email,
+    AddressModel? address,
+    String? phone,
+    String? website,
+    CompanyModel? company,
+  }) : super(
+          id: id,
+          name: name,
+          username: username,
+          email: email,
+          address: address,
+          phone: phone,
+          website: website,
+          company: company,
+        );
 
   factory UserModel.cast(UserEntity? e) {
     return UserModel(
       id: e?.id,
       name: e?.name,
-      surname: e?.surname,
+      username: e?.username,
+      email: e?.email,
       address: AddressModel.cast(e?.address),
-      birthday: e?.birthday,
+      phone: e?.phone,
+      website: e?.website,
+      company: CompanyModel.cast(e?.company),
     );
   }
 
-  UserModel copyWithModel(
-      {int? id,
-      String? name,
-      String? surname,
-      AddressModel? address,
-      DateTime? birthday}) {
+  UserModel copyWithModel({
+    int? id,
+    String? name,
+    String? username,
+    String? email,
+    AddressModel? address,
+    String? phone,
+    String? website,
+    CompanyModel? company,
+  }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
-      surname: surname ?? this.surname,
+      username: username ?? this.username,
+      email: email ?? this.email,
       address: address ?? AddressModel.cast(this.address),
-      birthday: birthday ?? this.birthday,
+      phone: phone ?? this.phone,
+      website: website ?? this.website,
+      company: company ?? CompanyModel.cast(this.company),
     );
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: int.tryParse(json["id"].toString()),
+        id: json["id"],
         name: json["name"],
-        surname: json["surname"],
-        birthday: DateTime.tryParse(json["birth_day"].toString()),
-        address: AddressModel.fromJson(json["address"])
-      );
+        username: json["username"],
+        email: json["email"],
+        address: AddressModel.fromJson(json["address"]),
+        phone: json["phone"],
+        website: json["website"],
+        company: CompanyModel.fromJson(json["company"]),
+    );
 
   factory UserModel.fromQuery(Map<String, dynamic> query) {
     return UserModel(
-        id: int.tryParse(query["id"].toString()),
-        name: query["name"],
-        surname: query["name"],
-        birthday: DateTime.tryParse(query["surname"]),
-        address: AddressModel.fromJson(query["address"]),
+      id: int.tryParse(query["id"].toString()),
+      name: query["name"],
+      address: AddressModel.fromJson(query["address"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "birthday": birthday.toString(),
       };
 }

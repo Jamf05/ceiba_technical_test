@@ -26,7 +26,7 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
               textColor: AppColors.blackFirst,
               iconColor: theme.primaryColor,
               title: Text(
-                "Labore sint in duis laborum.",
+                user.name ?? '',
                 style:
                     AppFonts.textStyleM18.copyWith(color: theme.primaryColor),
               ),
@@ -34,15 +34,17 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(Icons.phone),
-                      Text("1-222-3-4-45-5"),
+                    children: [
+                      const Icon(Icons.phone),
+                      const SizedBox(width: 5,),
+                      Text(user.phone ?? ''),
                     ],
                   ),
                   Row(
-                    children: const [
-                      Icon(Icons.email),
-                      Text("1-222-3-4-45-5"),
+                    children: [
+                      const Icon(Icons.email),
+                      const SizedBox(width: 5,),
+                      Text(user.email ?? ''),
                     ],
                   ),
                 ],
