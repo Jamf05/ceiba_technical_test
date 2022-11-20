@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.demo.ceiba_technical_test">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="CEIBA Tech Test"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
