@@ -73,7 +73,9 @@ class UserModel extends UserEntity {
     return UserModel(
       id: int.tryParse(query["id"].toString()),
       name: query["name"],
-      address: AddressModel.fromJson(query["address"]),
+      username: query["username"],
+      email: query["email"],
+      phone: query["phone"],
     );
   }
 

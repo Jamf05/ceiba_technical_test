@@ -36,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.centerTitle,
       this.toolbarHeight,
       this.titleSpacing,
-      this.shadowColor = AppColors.whiteFirst,
+      this.shadowColor,
       this.leadingWidth,
   })
       : preferredSize =

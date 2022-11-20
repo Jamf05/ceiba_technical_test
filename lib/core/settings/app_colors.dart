@@ -81,7 +81,7 @@ class AppColors {
   static const Color greenFirst = Color(0xff2a6030);
 
   /// Color(0xFF03D6BC)
-  static const Color greenSecond = Color(0xFF03D6BC);
+  static const Color greenSecond = Color(0xfff7f7f7);
 
   /// Color(0xff32cf80)
   static const Color greenThird = Color(0xff32cf80);

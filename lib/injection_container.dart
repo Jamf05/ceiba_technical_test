@@ -1,4 +1,8 @@
 import 'package:ceiba_technical_test/core/database/database_helper.dart';
+import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
+import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
+import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
+import 'package:ceiba_technical_test/features/domain/usecases/get_publications_list_use_case.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case_usecase.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/register_user_usecase.dart';
 import 'package:get_it/get_it.dart';
@@ -24,6 +28,8 @@ Future<void> init() async {
 
   sl.registerFactory(
       () => SplashBloc(checkAuthenticated: sl(), rejectUserConfirmation: sl()));
+  sl.registerFactory(() => HomeBloc(getUserUseCase: sl()));
+  sl.registerFactory(() => PostsListBloc(getPostsListUseCase: sl()));
 
   /**
    * Use Cases
@@ -34,13 +40,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCurrentUserUsecase(sl()));
   sl.registerLazySingleton(() => SetUserUseCase(sl()));
   sl.registerLazySingleton(() => GetUserListUseCase(sl()));
+  sl.registerLazySingleton(() => GetPostsListUseCase(sl()));
 
   /** 
    * Repositories
    */
 
-  sl.registerLazySingleton<UserRepository>(
-      () => UserRepositoryImpl(userRemoteDataSource: sl()));
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+      userRemoteDataSource: sl(), userLocalDataSource: sl()));
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
       authRemoteDataSource: sl(), authLocalDataSource: sl()));
 
@@ -49,6 +56,8 @@ Future<void> init() async {
    */
   sl.registerLazySingleton<UserRemoteDataSource>(
       () => UserRemoteDataSourceImpl());
+  sl.registerLazySingleton<UserLocalDataSource>(
+      () => UserLocalDataSourceImpl(databaseHelper: sl()));
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl());
   sl.registerLazySingleton<AuthLocalDataSource>(

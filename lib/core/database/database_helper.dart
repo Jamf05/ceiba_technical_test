@@ -86,17 +86,22 @@ class DatabaseHelper {
       {List<String>? cols,
       String? where,
       List<dynamic>? whereArgs,
-      String? orderBy}) async {
+      String? orderBy,
+      int? limit}) async {
     Database? db = _instance._database;
     log("${table.toString()}, ${cols.toString()}, ${where.toString()}",
         name: "SELECTDB");
     List<Map>? maps = await db.query(table,
-        columns: cols, where: where, whereArgs: whereArgs, orderBy: orderBy);
+        columns: cols,
+        where: where,
+        whereArgs: whereArgs,
+        orderBy: orderBy,
+        limit: limit);
     return maps;
   }
 
-  Future<void> update(String table, Map<String, dynamic> values,
-      String where, List<dynamic> whereArgs) async {
+  Future<void> update(String table, Map<String, dynamic> values, String where,
+      List<dynamic> whereArgs) async {
     Database? db = _database;
     log("${table.toString()}, ${values.toString()}, ${where.toString()}",
         name: "UPDATEDB");

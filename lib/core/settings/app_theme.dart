@@ -18,6 +18,10 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.greenFirst,
     ),
+    scaffoldBackgroundColor: AppColors.greenSecond,
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppColors.greenFirst
+    ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         overlayColor: MaterialStateColor.resolveWith(
@@ -25,29 +29,32 @@ class AppTheme {
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      // enabledBorder: UnderlineInputBorder(
-      //   borderSide: BorderSide(color: AppColors.greenFirst),
-      // ),
-      // border: UnderlineInputBorder(
-      //   borderSide: BorderSide(color: AppColors.greenFirst),
-      // ),
       focusedBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.greenFirst, width: 2),
       ),
       labelStyle: AppFonts.textStyleR14.copyWith(color: AppColors.greenFirst)
-    )
+    ),
   );
   static final greenDark = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: AppColors.greenFirst,
+    primaryColor: Colors.greenAccent,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.greenFirst,
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: Colors.greenAccent
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         overlayColor: MaterialStateColor.resolveWith(
-            (states) => AppColors.greenFirst.withOpacity(0.05)),
+            (states) => Colors.greenAccent.withOpacity(0.05)),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.greenAccent, width: 2),
+      ),
+      labelStyle: AppFonts.textStyleR14.copyWith(color: Colors.greenAccent)
+    )
   );
 }

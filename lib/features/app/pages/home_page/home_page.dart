@@ -1,9 +1,11 @@
-import 'package:ceiba_technical_test/features/app/bindings/home_binding.dart';
+import 'package:ceiba_technical_test/core/database/database_helper.dart';
+import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/features/app/custom/components/custom_app_bar.dart';
+import 'package:ceiba_technical_test/features/app/custom/widgets/refresh_indicator_widget.dart';
 import 'package:ceiba_technical_test/features/app/pages/home_page/widgets/user_card_widget.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/circular_progress_indicator_widget.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/custom_text_field.dart';
-import 'package:ceiba_technical_test/features/app/pages/publications_list_page/publications_list_page.dart';
+import 'package:ceiba_technical_test/features/app/pages/posts_list_page/posts_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/injection_container.dart';
 import 'package:ceiba_technical_test/core/page/base_bloc_state.dart';
@@ -27,12 +29,6 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
     super.onInitState();
   }
 
-  @override
-  void dispose() {
-    HomeBinding().dispose();
-    super.dispose();
-  }
-
   List<Widget> get actions => [
         IconButton(
             onPressed: () =>
@@ -48,10 +44,20 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          titleText: "Prueba de Ingreso",
+          titleText: l10n.homePageTitle,
           leading: const SizedBox(),
           leadingWidth: 0,
-          // actions: actions,
+          actions: actions,
+        ),
+        floatingActionButton: Visibility(
+          visible: Env.environment == "DEV",
+          child: FloatingActionButton(
+            child: const Icon(Icons.cleaning_services_outlined),
+            onPressed: () {
+              DatabaseHelper.deleteDatabase();
+              DatabaseHelper.init();
+            },
+          ),
         ),
         body: BlocConsumer<HomeBloc, HomeState>(
           bloc: bloc,
@@ -63,9 +69,10 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
           },
           builder: (context, state) {
             if (bloc.isLoadingPage) return const CircularProgressWidget();
-            return RefreshIndicator(
+            return RefreshIndicatorWidget(
               onRefresh: () async => bloc.add(const GetUserDataEvent()),
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: Column(
                   children: <Widget>[
@@ -73,7 +80,7 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
                       height: 10,
                     ),
                     CustomTextField(
-                      labelText: "Buscar usuario",
+                      labelText: l10n.homePageSearchUser,
                       onChanged: (String v) =>
                           bloc.query = bloc.query.copyWith(v),
                     ),
@@ -84,7 +91,11 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
                         bloc.filteredList.length,
                         (i) => UserCardWidget(
                               user: bloc.filteredList[i],
-                              onPressed: () => nav.to(const PublicationsListPage()),
+                              onPressed: () {
+                                nav.to(PostsListPage(
+                                  user: bloc.filteredList[i],
+                                ));
+                              },
                             ))
                   ],
                 ),

@@ -23,7 +23,8 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
         child: Column(
           children: [
             ListTile(
-              textColor: AppColors.blackFirst,
+              textColor:
+                  isDarkTheme ? AppColors.whiteFirst : AppColors.blackFirst,
               iconColor: theme.primaryColor,
               title: Text(
                 user.name ?? '',
@@ -36,14 +37,18 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                   Row(
                     children: [
                       const Icon(Icons.phone),
-                      const SizedBox(width: 5,),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Text(user.phone ?? ''),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.email),
-                      const SizedBox(width: 5,),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Text(user.email ?? ''),
                     ],
                   ),
@@ -57,7 +62,8 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                 child: Row(
                   children: [
                     const Spacer(),
-                    ButtonWidget(text: "VER PUBLICACIONES", onPressed: onPressed),
+                    ButtonWidget(
+                        text: l10n.homePageSeePublications, onPressed: onPressed),
                   ],
                 ),
               ),

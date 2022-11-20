@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ceiba_technical_test/features/app/bindings/home_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ceiba_technical_test/core/page/base_bloc_state.dart';
@@ -62,7 +61,7 @@ class SplashPageState extends BaseBlocState<SplashPage, SplashBloc> {
     return Timer(const Duration(milliseconds: 700), () {
       switch (session) {
         default:
-          nav.offAll(const HomePage(), binding: HomeBinding());
+          nav.offAll(const HomePage());
       }
     });
   }
