@@ -22,15 +22,12 @@ This project follows the guidelines of clean architecture.
 
 ## 💡 Features
 
-- [x] Switch between dark mode and light mode.
 - [x] Internationalization. Support for English and Spanish languages.
 - [x] Persist data with SQLite.
 - [x] Error Handling.
 - [x] Custom dependency injection.
 - [x] Custom local notifications.
 - [x] Custom navigation transition.
-
-## 📱 ScreenShots
 
 ## 🔌 Packages
 

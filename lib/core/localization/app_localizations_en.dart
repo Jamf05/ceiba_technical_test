@@ -14,5 +14,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homePageSeePublications => 'SEE PUBLICATIONS';
 
   @override
+  String get homePageSeeListIsEmpty => 'List is empty';
+
+  @override
   String get postsListTitle => 'Posts';
 }

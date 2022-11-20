@@ -8,7 +8,6 @@ import 'package:ceiba_technical_test/features/app/pages/posts_list_page/widgets/
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class PostsListPage extends StatefulWidget {
   final UserEntity user;
@@ -26,23 +25,11 @@ class _PostsListPageState extends BaseBlocState<PostsListPage, PostsListBloc> {
     super.onInitState();
   }
 
-  List<Widget> get actions => [
-        IconButton(
-            onPressed: () =>
-                AppTheme.selected.value = AppTheme.reverseGreenTheme,
-            icon: Icon(
-                isDarkTheme
-                    ? Icons.wb_sunny_outlined
-                    : MdiIcons.weatherNightPartlyCloudy,
-                color: AppColors.whiteFirst))
-      ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         titleText: l10n.postsListTitle,
-        actions: actions,
       ),
       body: BlocConsumer<PostsListBloc, PostsListState>(
         bloc: bloc,

@@ -1,6 +1,7 @@
 import 'package:ceiba_technical_test/core/database/database_helper.dart';
 import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/features/app/custom/components/custom_app_bar.dart';
+import 'package:ceiba_technical_test/features/app/custom/widgets/empty_item_widget.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/refresh_indicator_widget.dart';
 import 'package:ceiba_technical_test/features/app/pages/home_page/widgets/user_card_widget.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/circular_progress_indicator_widget.dart';
@@ -29,17 +30,6 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
     super.onInitState();
   }
 
-  List<Widget> get actions => [
-        IconButton(
-            onPressed: () =>
-                AppTheme.selected.value = AppTheme.reverseGreenTheme,
-            icon: Icon(
-                isDarkTheme
-                    ? Icons.wb_sunny_outlined
-                    : MdiIcons.weatherNightPartlyCloudy,
-                color: AppColors.whiteFirst))
-      ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +37,6 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
           titleText: l10n.homePageTitle,
           leading: const SizedBox(),
           leadingWidth: 0,
-          actions: actions,
         ),
         floatingActionButton: Visibility(
           visible: Env.environment == "DEV",
@@ -87,16 +76,22 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
                     const SizedBox(
                       height: 30,
                     ),
-                    ...List.generate(
-                        bloc.filteredList.length,
-                        (i) => UserCardWidget(
-                              user: bloc.filteredList[i],
-                              onPressed: () {
-                                nav.to(PostsListPage(
-                                  user: bloc.filteredList[i],
-                                ));
-                              },
-                            ))
+                    if (bloc.filteredList.isNotEmpty)
+                      ...List.generate(
+                          bloc.filteredList.length,
+                          (i) => UserCardWidget(
+                                user: bloc.filteredList[i],
+                                onPressed: () {
+                                  nav.to(PostsListPage(
+                                    user: bloc.filteredList[i],
+                                  ));
+                                },
+                              ))
+                    else
+                      EmptyItemWidget(
+                        icon: MdiIcons.formatListBulletedSquare,
+                        message: l10n.homePageSeeListIsEmpty
+                      )
                   ],
                 ),
               ),

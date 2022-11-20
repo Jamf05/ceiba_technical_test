@@ -111,6 +111,12 @@ abstract class AppLocalizations {
   /// **'VER PUBLICACIONES'**
   String get homePageSeePublications;
 
+  /// No description provided for @homePageSeeListIsEmpty.
+  ///
+  /// In es, this message translates to:
+  /// **'List is empty'**
+  String get homePageSeeListIsEmpty;
+
   /// No description provided for @postsListTitle.
   ///
   /// In es, this message translates to:

@@ -2,5 +2,6 @@
   "homePageTitle": "Prueba de Ingreso",
   "homePageSearchUser": "Buscar usuario",
   "homePageSeePublications": "VER PUBLICACIONES",
+  "homePageSeeListIsEmpty": "List is empty",
   "postsListTitle": "Publicaciones"
 }

@@ -74,33 +74,4 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
       throw ExceptionFailure.decode(error);
     }
   }
-
-  // @override
-  // Future<bool> checkIfUserListIsValid() async {
-  //   try {
-  //     final res = await databaseHelper.select("user", limit: 1);
-  //     if (res != null && res.isNotEmpty) {
-  //       var listElement = List<Map<String, dynamic>>.generate(
-  //           res.length, (index) => Map<String, dynamic>.from(res[index]),
-  //           growable: true);
-  //       final item = listElement.first;
-  //       final now = DateTime.now();
-  //       final createAt = DateTime.tryParse(item["created_at"]);
-  //       if (createAt != null) {
-  //         final difference = now.difference(createAt);
-  //         return difference.inHours < 24;
-  //       } else {
-  //         return false;
-  //       }
-  //     } else {
-  //       return false;
-  //     }
-  //   } on DatabaseException catch (error) {
-  //     throw SqfliteFailure.decode(error);
-  //   } on Error catch (error) {
-  //     throw ErrorFailure.decode(error);
-  //   } on Exception catch (error) {
-  //     throw ExceptionFailure.decode(error);
-  //   }
-  // }
 }
