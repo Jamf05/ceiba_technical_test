@@ -1,21 +1,12 @@
 import 'package:ceiba_technical_test/features/domain/entities/address_entity.dart';
 import 'package:ceiba_technical_test/features/domain/entities/enums/session_status.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
 
-part 'user_entity.g.dart';
-
-@HiveType(typeId: 1)
 class UserEntity extends Equatable {
-  @HiveField(0)
   final int? id;
-  @HiveField(1)
   final String? name;
-  @HiveField(2)
   final String? surname;
-  @HiveField(3)
   final AddressEntity? address;
-  @HiveField(4)
   final DateTime? birthday;
   final SessionStatus status = SessionStatus.inactive;
 

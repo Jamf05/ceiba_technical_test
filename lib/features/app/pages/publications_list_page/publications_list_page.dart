@@ -21,7 +21,7 @@ class PublicationsListPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            UserCardWidget(
+            const UserCardWidget(
               showButton: false,
               user: UserEntity(),
             ),

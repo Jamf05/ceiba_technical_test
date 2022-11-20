@@ -34,13 +34,13 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: [
+                    children: const [
                       Icon(Icons.phone),
                       Text("1-222-3-4-45-5"),
                     ],
                   ),
                   Row(
-                    children: [
+                    children: const [
                       Icon(Icons.email),
                       Text("1-222-3-4-45-5"),
                     ],

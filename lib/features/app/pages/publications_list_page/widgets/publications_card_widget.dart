@@ -22,7 +22,7 @@ class PublicationsCardWidget extends StatelessWidget with BaseWidget {
                 style:
                     AppFonts.textStyleM18.copyWith(color: theme.primaryColor),
               ),
-              subtitle: Text("quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto")
+              subtitle: const Text("quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto")
             ),
           ],
         ),
