@@ -32,7 +32,7 @@ void main() {
     final List<UserModel> tUserModelList = tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
 
     test(
-      'should return weather model when the response code is 200',
+      'should return the list of users when the response code is 200',
       () async {
         mockDioClient.onGet(
           "/users",
@@ -63,7 +63,7 @@ void main() {
         .toList();
 
     test(
-      'should return weather model when the response code is 200',
+      'should return the list of posts when the response code is 200',
       () async {
         mockDioClient.onGet(
           "/posts",

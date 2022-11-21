@@ -33,11 +33,10 @@ void main() {
     final List<UserModel> tUserModelList =
         tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
     test(
-      'escenario donde local data source NO tiene datos almacenados',
+      'should return the list of users when a call to the local data source is empty and a call to the remote data source is successful',
       () async {
         // arrange
-        when(mockUserLocalDataSource.getUserList())
-            .thenAnswer((_) async => []);
+        when(mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
 
         when(mockUserRemoteDataSource.getUserList())
             .thenAnswer((_) async => tUserModelList);
@@ -57,7 +56,7 @@ void main() {
     );
 
     test(
-      'escenario donde local data source SI tiene datos almacenados',
+      'should return the list of users when a call to the local data source has already previously saved the list of users',
       () async {
         // arrange
         when(mockUserLocalDataSource.getUserList())
@@ -73,11 +72,10 @@ void main() {
     );
 
     test(
-      'should return dio failure when a call to data source is unsuccessful',
+      'should return dio failure when a call to remote data source is unsuccessful',
       () async {
         // arrange
-        when(mockUserLocalDataSource.getUserList())
-            .thenAnswer((_) async => []);
+        when(mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
 
         when(mockUserRemoteDataSource.getUserList()).thenThrow(
             DioFailure.decode(
@@ -105,7 +103,7 @@ void main() {
         .map((e) => PostModel.fromJson(Map<String, dynamic>.from(e)))
         .toList();
     test(
-      'should return current weather when a call to data source is successful',
+      'should return the list of posts when a call to the datasource is successful',
       () async {
         // arrange
         when(mockUserRemoteDataSource.getPostsList(tUserId))
@@ -121,7 +119,7 @@ void main() {
     );
 
     test(
-      'should return dio failure when a call to data source is unsuccessful',
+      'should return dio failure when a call to remote data source is unsuccessful',
       () async {
         // arrange
         when(mockUserRemoteDataSource.getPostsList(tUserId)).thenThrow(

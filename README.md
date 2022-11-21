@@ -46,6 +46,14 @@ This project follows the guidelines of clean architecture.
     flutter run
 ````
 
+## 🧪 Testing (Linux)
+
+```bash
+    sudo apt-get -y install libsqlite3-0 libsqlite3-dev
+    flutter packages pub run build_runner build --delete-conflicting-outputs
+    flutter test
+````
+
 ## 👨‍💻 Author(s)
 
 [**Jorge A. Mogotocoro F.**](https://www.linkedin.com/in/jorgemogotocoro/)

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:ceiba_technical_test/core/failures/exception.dart';
-import 'package:ceiba_technical_test/core/usecase/usecase.dart';
 import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
 import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
 import 'package:dartz/dartz.dart';
@@ -39,7 +38,7 @@ void main() {
       .toList();
 
   blocTest<PostsListBloc, PostsListState>(
-    'should emit [loading, has data] when data is gotten successfully',
+    'should emit [Initial, LoadingState, Initial, LoadingState] when data is gotten successfully',
     build: () {
       when(mockGetPostsListUseCase.call(tUserId))
           .thenAnswer((_) async => Right(tPostsModelList));
@@ -59,7 +58,7 @@ void main() {
   );
 
   blocTest<PostsListBloc, PostsListState>(
-    'should emit [loading, error] when get data is unsuccessful',
+    'should emit [Initial, LoadingState, FailureState, Initial, LoadingState] when get data is unsuccessful',
     build: () {
       when(mockGetPostsListUseCase.call(tUserId)).thenAnswer((_) async => Left(
           DioFailure.decode(

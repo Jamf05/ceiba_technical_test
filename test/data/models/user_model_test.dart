@@ -57,7 +57,7 @@ void main() {
 
   group('from query', () {
     test(
-      'should return a valid model from json',
+      'should return a valid model from db query',
       () async {
         // arrange
         final Map<String, dynamic> jsonMap = json.decode(

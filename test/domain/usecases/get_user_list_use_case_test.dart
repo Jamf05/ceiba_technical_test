@@ -29,7 +29,7 @@ void main() {
         tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
 
   test(
-    'should get current weather detail from the repository',
+    'should the current list of users from the repository',
     () async {
       // arrange
       when(mockRepository.getUserList())
@@ -44,7 +44,7 @@ void main() {
   );
 
   test(
-    'should get current weather detail from the repository',
+    'should return Dio Failure when a call to repository is unsuccessful',
     () async {
       // arrange
       when(mockRepository.getUserList()).thenAnswer((_) async => Left(

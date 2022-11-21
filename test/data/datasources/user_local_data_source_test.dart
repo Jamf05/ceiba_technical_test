@@ -46,7 +46,7 @@ void main() {
 
   group('get user list', () {
     test(
-      '',
+      'should return an empty list',
       () async {
         // arrange
         when(mockdatabaseHelper.select("user")).thenAnswer((_) async => []);
@@ -58,7 +58,7 @@ void main() {
     );
 
     test(
-      '',
+      'should return a valid list of users',
       () async {
         // arrange
         when(mockdatabaseHelper.select("user"))
@@ -73,7 +73,7 @@ void main() {
 
   group('save user list', () {
     test(
-      '',
+      'should save a list of users in local data source',
       () async {
         userLocalDataSource =
           UserLocalDataSourceImpl(databaseHelper: databaseHelper);
@@ -88,7 +88,7 @@ void main() {
 
   group('clean user list', () {
     test(
-      '',
+      'should clean the list of users in the local data source',
       () async {
         userLocalDataSource =
           UserLocalDataSourceImpl(databaseHelper: databaseHelper);

@@ -38,7 +38,7 @@ void main() {
   );
 
   blocTest<HomeBloc, HomeState>(
-    'should emit [loading, has data] when data is gotten successfully',
+    'should emit [Initial, LoadingState, Initial, LoadingState] when data is gotten successfully',
     build: () {
       when(mockGetUserListUseCase.call(NoParams()))
           .thenAnswer((_) async => Right(tUserModelList));
@@ -58,7 +58,7 @@ void main() {
   );
 
   blocTest<HomeBloc, HomeState>(
-    'should emit [loading, error] when get data is unsuccessful',
+    'should emit [Initial, LoadingState, FailureState, Initial, LoadingState] when get data is unsuccessful',
     build: () {
       when(mockGetUserListUseCase.call(NoParams())).thenAnswer((_) async =>
           Left(DioFailure.decode(
