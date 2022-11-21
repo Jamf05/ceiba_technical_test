@@ -45,13 +45,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _mapGetUserDataEventToState(
       GetUserDataEvent event, Emitter<HomeState> emit) async {
     isLoadingPage = true;
-    add(const HomeLoadingEvent());
+    emit(const HomeInitial());
+    emit(const HomeLoadingState());
     final response = await _getUserUseCase.call(NoParams());
     response.fold((l) => emit(HomeFailureState(l)), (r) {
       _userList = r ?? [];
       filteredList = _userList;
     });
     isLoadingPage = false;
-    add(const HomeLoadingEvent());
+    emit(const HomeInitial());
+    emit(const HomeLoadingState());
   }
 }

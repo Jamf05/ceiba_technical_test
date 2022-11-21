@@ -3,27 +3,33 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:ceiba_technical_test/core/database/database_helper.dart' as _i3;
-import 'package:ceiba_technical_test/core/failures/failure.dart' as _i7;
-import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart'
-    as _i13;
-import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart'
-    as _i10;
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart'
-    as _i12;
-import 'package:ceiba_technical_test/features/data/models/user_model.dart'
+import 'package:ceiba_technical_test/core/database/database_helper.dart'
     as _i11;
+import 'package:ceiba_technical_test/core/failures/failure.dart' as _i6;
+import 'package:ceiba_technical_test/core/usecase/usecase.dart' as _i10;
+import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart'
+    as _i16;
+import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart'
+    as _i13;
+import 'package:ceiba_technical_test/features/data/models/posts_model.dart'
+    as _i15;
+import 'package:ceiba_technical_test/features/data/models/user_model.dart'
+    as _i14;
 import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart'
-    as _i9;
+    as _i7;
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart'
-    as _i8;
+    as _i9;
 import 'package:ceiba_technical_test/features/domain/repositories/user_repository.dart'
-    as _i6;
-import 'package:dartz/dartz.dart' as _i2;
+    as _i2;
+import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart'
+    as _i4;
+import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart'
+    as _i8;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sqflite/sqflite.dart' as _i5;
+import 'package:sqflite/sqflite.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -36,8 +42,9 @@ import 'package:sqflite/sqflite.dart' as _i5;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
-  _FakeEither_0(
+class _FakeUserRepository_0 extends _i1.SmartFake
+    implements _i2.UserRepository {
+  _FakeUserRepository_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -46,16 +53,100 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [GetPostsListUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetPostsListUseCase extends _i1.Mock
+    implements _i4.GetPostsListUseCase {
+  MockGetPostsListUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.UserRepository get authRepository => (super.noSuchMethod(
+        Invocation.getter(#authRepository),
+        returnValue: _FakeUserRepository_0(
+          this,
+          Invocation.getter(#authRepository),
+        ),
+      ) as _i2.UserRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>?>> call(
+          int? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [userId],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>?>>.value(
+                _FakeEither_1<_i6.Failure, List<_i7.PostEntity>?>(
+          this,
+          Invocation.method(
+            #call,
+            [userId],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>?>>);
+}
+
+/// A class which mocks [GetUserListUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetUserListUseCase extends _i1.Mock
+    implements _i8.GetUserListUseCase {
+  MockGetUserListUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.UserRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeUserRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.UserRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>?>> call(
+          _i10.NoParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>?>>.value(
+                _FakeEither_1<_i6.Failure, List<_i9.UserEntity>?>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>?>>);
+}
+
 /// A class which mocks [DatabaseHelper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
+class MockDatabaseHelper extends _i1.Mock implements _i11.DatabaseHelper {
   MockDatabaseHelper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<int> insert(
+  _i5.Future<int> insert(
     String? table,
     Map<String, dynamic>? values,
   ) =>
@@ -67,10 +158,10 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
             values,
           ],
         ),
-        returnValue: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
   @override
-  _i4.Future<List<Map<dynamic, dynamic>>?> select(
+  _i5.Future<List<Map<dynamic, dynamic>>?> select(
     String? table, {
     List<String>? cols,
     String? where,
@@ -90,10 +181,10 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
             #limit: limit,
           },
         ),
-        returnValue: _i4.Future<List<Map<dynamic, dynamic>>?>.value(),
-      ) as _i4.Future<List<Map<dynamic, dynamic>>?>);
+        returnValue: _i5.Future<List<Map<dynamic, dynamic>>?>.value(),
+      ) as _i5.Future<List<Map<dynamic, dynamic>>?>);
   @override
-  _i4.Future<void> update(
+  _i5.Future<void> update(
     String? table,
     Map<String, dynamic>? values,
     String? where,
@@ -109,13 +200,13 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
             whereArgs,
           ],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i4.Future<void> execute(
+  _i5.Future<void> execute(
     String? sql, {
-    _i5.Database? db,
+    _i12.Database? db,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -123,13 +214,13 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
           [sql],
           {#db: db},
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
   @override
-  _i4.Future<void> delete(
+  _i5.Future<void> delete(
     String? table, {
-    _i5.Database? db,
+    _i12.Database? db,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -137,38 +228,38 @@ class MockDatabaseHelper extends _i1.Mock implements _i3.DatabaseHelper {
           [table],
           {#db: db},
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [UserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i6.UserRepository {
+class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
   MockUserRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i7.Failure, List<_i8.UserEntity>>> getUserList() =>
+  _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>>> getUserList() =>
       (super.noSuchMethod(
         Invocation.method(
           #getUserList,
           [],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i8.UserEntity>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i8.UserEntity>>(
+            _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>>>.value(
+                _FakeEither_1<_i6.Failure, List<_i9.UserEntity>>(
           this,
           Invocation.method(
             #getUserList,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i8.UserEntity>>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i9.UserEntity>>>);
   @override
-  _i4.Future<_i2.Either<_i7.Failure, List<_i9.PostEntity>>> getPostsList(
+  _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>>> getPostsList(
           int? userId) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -176,77 +267,77 @@ class MockUserRepository extends _i1.Mock implements _i6.UserRepository {
           [userId],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i7.Failure, List<_i9.PostEntity>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.PostEntity>>(
+            _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>>>.value(
+                _FakeEither_1<_i6.Failure, List<_i7.PostEntity>>(
           this,
           Invocation.method(
             #getPostsList,
             [userId],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i7.Failure, List<_i9.PostEntity>>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i7.PostEntity>>>);
 }
 
 /// A class which mocks [UserRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUserRemoteDataSource extends _i1.Mock
-    implements _i10.UserRemoteDataSource {
+    implements _i13.UserRemoteDataSource {
   MockUserRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i11.UserModel>> getUserList() => (super.noSuchMethod(
+  _i5.Future<List<_i14.UserModel>> getUserList() => (super.noSuchMethod(
         Invocation.method(
           #getUserList,
           [],
         ),
-        returnValue: _i4.Future<List<_i11.UserModel>>.value(<_i11.UserModel>[]),
-      ) as _i4.Future<List<_i11.UserModel>>);
+        returnValue: _i5.Future<List<_i14.UserModel>>.value(<_i14.UserModel>[]),
+      ) as _i5.Future<List<_i14.UserModel>>);
   @override
-  _i4.Future<List<_i12.PostModel>> getPostsList(int? userId) =>
+  _i5.Future<List<_i15.PostModel>> getPostsList(int? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPostsList,
           [userId],
         ),
-        returnValue: _i4.Future<List<_i12.PostModel>>.value(<_i12.PostModel>[]),
-      ) as _i4.Future<List<_i12.PostModel>>);
+        returnValue: _i5.Future<List<_i15.PostModel>>.value(<_i15.PostModel>[]),
+      ) as _i5.Future<List<_i15.PostModel>>);
 }
 
 /// A class which mocks [UserLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUserLocalDataSource extends _i1.Mock
-    implements _i13.UserLocalDataSource {
+    implements _i16.UserLocalDataSource {
   MockUserLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i11.UserModel>> getUserList() => (super.noSuchMethod(
+  _i5.Future<List<_i14.UserModel>> getUserList() => (super.noSuchMethod(
         Invocation.method(
           #getUserList,
           [],
         ),
-        returnValue: _i4.Future<List<_i11.UserModel>>.value(<_i11.UserModel>[]),
-      ) as _i4.Future<List<_i11.UserModel>>);
+        returnValue: _i5.Future<List<_i14.UserModel>>.value(<_i14.UserModel>[]),
+      ) as _i5.Future<List<_i14.UserModel>>);
   @override
-  _i4.Future<bool> saveUserList(List<_i11.UserModel>? list) =>
+  _i5.Future<bool> saveUserList(List<_i14.UserModel>? list) =>
       (super.noSuchMethod(
         Invocation.method(
           #saveUserList,
           [list],
         ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
   @override
-  _i4.Future<bool> cleanUserList() => (super.noSuchMethod(
+  _i5.Future<bool> cleanUserList() => (super.noSuchMethod(
         Invocation.method(
           #cleanUserList,
           [],
         ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
 }

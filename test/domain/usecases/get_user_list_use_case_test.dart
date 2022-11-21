@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:ceiba_technical_test/core/failures/exception.dart';
 import 'package:ceiba_technical_test/core/usecase/usecase.dart';
 import 'package:ceiba_technical_test/features/data/models/user_model.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -38,6 +40,25 @@ void main() {
 
       // assert
       expect(result, equals(Right(tUserModelList)));
+    },
+  );
+
+  test(
+    'should get current weather detail from the repository',
+    () async {
+      // arrange
+      when(mockRepository.getUserList()).thenAnswer((_) async => Left(
+          DioFailure.decode(
+              DioError(requestOptions: RequestOptions(path: '')))));
+
+      // act
+      final result = await usecase.call(NoParams());
+
+      // assert
+      expect(
+          Left(DioFailure.decode(
+              DioError(requestOptions: RequestOptions(path: '')))),
+          equals(result));
     },
   );
 }

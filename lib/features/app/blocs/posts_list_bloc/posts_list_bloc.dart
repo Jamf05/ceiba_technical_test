@@ -31,12 +31,14 @@ class PostsListBloc
   void _mapGetPostsListEventToState(
       GetPostsListEvent event, Emitter<PostsListState> emit) async {
     isLoadingPage = true;
-    add(const PostsListLoadingEvent());
+    emit(const PostsListInitial());
+    emit(const PostsListLoadingState());
     final response = await _getPostsListUseCase.call(event.userId);
     response.fold((l) => emit(PostsListFailureState(l)), (r) {
       postsList = r ?? [];
     });
     isLoadingPage = false;
-    add(const PostsListLoadingEvent());
+    emit(const PostsListInitial());
+    emit(const PostsListLoadingState());
   }
 }
