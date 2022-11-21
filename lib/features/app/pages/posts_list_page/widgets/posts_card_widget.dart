@@ -3,7 +3,7 @@ import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart'
 import 'package:flutter/material.dart';
 
 class PostsCardWidget extends StatelessWidget with BaseWidget {
-  final PostsEntity item;
+  final PostEntity item;
   const PostsCardWidget({Key? key, required this.item}) : super(key: key);
 
   @override

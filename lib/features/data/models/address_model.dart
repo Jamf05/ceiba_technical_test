@@ -47,7 +47,7 @@ class AddressModel extends AddressEntity {
         suite: json["suite"],
         city: json["city"],
         zipcode: json["zipcode"],
-        geo: LatLng(double.tryParse(json["lat"].toString()),
-            double.tryParse(json["lng"].toString())),
+        geo: LatLng(double.tryParse(json["geo"]["lat"].toString()),
+            double.tryParse(json["geo"]["lng"].toString())),
       );
 }

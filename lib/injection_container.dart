@@ -1,9 +1,10 @@
+import 'package:ceiba_technical_test/core/api/api_provider.dart';
 import 'package:ceiba_technical_test/core/database/database_helper.dart';
 import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
 import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
-import 'package:ceiba_technical_test/features/domain/usecases/get_publications_list_use_case.dart';
-import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case_usecase.dart';
+import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart';
+import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart';
@@ -40,9 +41,16 @@ Future<void> init() async {
    * Data Sources
    */
   sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl());
+      () => UserRemoteDataSourceImpl(client: sl()));
   sl.registerLazySingleton<UserLocalDataSource>(
       () => UserLocalDataSourceImpl(databaseHelper: sl()));
+
+  /**
+   *  ApiProvider
+   */
+
+  final dio = ApiProvider().dio;
+  sl.registerLazySingleton(() => dio);
 
   /**
    * Database 

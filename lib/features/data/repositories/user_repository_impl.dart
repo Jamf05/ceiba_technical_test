@@ -30,7 +30,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsEntity>>> getPostsList(int userId) async {
+  Future<Either<Failure, List<PostEntity>>> getPostsList(int userId) async {
     try {
       final response = await userRemoteDataSource.getPostsList(userId);
       return Right(response);

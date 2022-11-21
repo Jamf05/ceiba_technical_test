@@ -7,5 +7,5 @@ import 'package:ceiba_technical_test/core/failures/failure.dart';
 
 abstract class UserRepository {
   Future<Either<Failure, List<UserEntity>>> getUserList();
-  Future<Either<Failure, List<PostsEntity>>> getPostsList(int userId);
+  Future<Either<Failure, List<PostEntity>>> getPostsList(int userId);
 }

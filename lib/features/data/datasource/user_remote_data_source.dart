@@ -1,4 +1,3 @@
-import 'package:ceiba_technical_test/core/api/api_provider.dart';
 import 'package:ceiba_technical_test/core/failures/error.dart';
 import 'package:ceiba_technical_test/core/failures/exception.dart';
 import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
@@ -7,15 +6,17 @@ import 'package:dio/dio.dart';
 
 abstract class UserRemoteDataSource {
   Future<List<UserModel>> getUserList();
-  Future<List<PostsModel>> getPostsList(int userId);
+  Future<List<PostModel>> getPostsList(int userId);
 }
 
-class UserRemoteDataSourceImpl extends ApiProvider
+class UserRemoteDataSourceImpl
     implements UserRemoteDataSource {
+  final Dio client;
+  UserRemoteDataSourceImpl({required this.client});
   @override
   Future<List<UserModel>> getUserList() async {
     try {
-      final res = await dio.get("/users");
+      final res = await client.get("/users");
       return (res.data as List).map((e) => UserModel.fromJson(e)).toList();
     } on DioError catch (error) {
       throw DioFailure.decode(error);
@@ -27,10 +28,10 @@ class UserRemoteDataSourceImpl extends ApiProvider
   }
 
   @override
-  Future<List<PostsModel>> getPostsList(int userId) async {
+  Future<List<PostModel>> getPostsList(int userId) async {
     try {
-      final res = await dio.get("/posts", queryParameters: {"userId": userId});
-      return (res.data as List).map((e) => PostsModel.fromJson(e)).toList();
+      final res = await client.get("/posts", queryParameters: {"userId": userId});
+      return (res.data as List).map((e) => PostModel.fromJson(e)).toList();
     } on DioError catch (error) {
       throw DioFailure.decode(error);
     } on Error catch (error) {

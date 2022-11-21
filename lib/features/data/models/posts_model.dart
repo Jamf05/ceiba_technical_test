@@ -1,7 +1,7 @@
 import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
 
-class PostsModel extends PostsEntity {
-  const PostsModel({
+class PostModel extends PostEntity {
+  const PostModel({
     int? userId,
     int? id,
     String? title,
@@ -13,17 +13,10 @@ class PostsModel extends PostsEntity {
           body: body,
         );
 
-  factory PostsModel.fromJson(Map<String, dynamic> json) => PostsModel(
+  factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
         userId: json["userId"],
         id: json["id"],
         title: json["title"],
         body: json["body"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "id": id,
-        "title": title,
-        "body": body,
-      };
 }
