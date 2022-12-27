@@ -4,7 +4,7 @@
 
 A simple Flutter application.
 
-To download this app, click here to see the [codemagic](https://codemagic.io/app/637a5c08444d38c6a4423669/build/637a6252444d38fcf8fe77b0) builds. You can choose to install the apk or the ipa(ios).
+To download this app, click here to see the [codemagic](https://codemagic.io/app/637a5c08444d38c6a4423669/build/637b913e444d3860da9f0187) builds. You can choose to install the apk or the ipa(ios).
 
 > Please star ⭐ the repo if you like what you see 😉.
 
