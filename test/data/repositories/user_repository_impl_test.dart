@@ -79,7 +79,7 @@ void main() {
 
         when(mockUserRemoteDataSource.getUserList()).thenThrow(
             DioFailure.decode(
-                DioError(requestOptions: RequestOptions(path: ''))));
+                DioException(requestOptions: RequestOptions(path: ''))));
 
         // act
         final result = await repository.getUserList();
@@ -89,7 +89,7 @@ void main() {
         expect(
             result,
             equals(Left(DioFailure.decode(
-                DioError(requestOptions: RequestOptions(path: ''))))));
+                DioException(requestOptions: RequestOptions(path: ''))))));
       },
     );
   });
@@ -124,7 +124,7 @@ void main() {
         // arrange
         when(mockUserRemoteDataSource.getPostsList(tUserId)).thenThrow(
             DioFailure.decode(
-                DioError(requestOptions: RequestOptions(path: ''))));
+                DioException(requestOptions: RequestOptions(path: ''))));
 
         // act
         final result = await repository.getPostsList(tUserId);
@@ -134,7 +134,7 @@ void main() {
         expect(
             result,
             equals(Left(DioFailure.decode(
-                DioError(requestOptions: RequestOptions(path: ''))))));
+                DioException(requestOptions: RequestOptions(path: ''))))));
       },
     );
   });

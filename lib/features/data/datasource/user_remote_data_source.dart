@@ -18,7 +18,7 @@ class UserRemoteDataSourceImpl
     try {
       final res = await client.get("/users");
       return (res.data as List).map((e) => UserModel.fromJson(e)).toList();
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       throw DioFailure.decode(error);
     } on Error catch (error) {
       throw ErrorFailure.decode(error);
@@ -32,7 +32,7 @@ class UserRemoteDataSourceImpl
     try {
       final res = await client.get("/posts", queryParameters: {"userId": userId});
       return (res.data as List).map((e) => PostModel.fromJson(e)).toList();
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       throw DioFailure.decode(error);
     } on Error catch (error) {
       throw ErrorFailure.decode(error);

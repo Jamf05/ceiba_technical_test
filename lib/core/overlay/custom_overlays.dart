@@ -246,7 +246,7 @@ class Show {
                 padding: const EdgeInsets.all(5),
                 alignment: Alignment.topRight,
                 child: IconButton(
-                    icon: const Icon(MdiIcons.close),
+                    icon: Icon(MdiIcons.close),
                     onPressed: () => Navigator.of(_context).pop()),
               ),
             const Positioned.fill(

@@ -49,7 +49,7 @@ void main() {
       // arrange
       when(mockRepository.getUserList()).thenAnswer((_) async => Left(
           DioFailure.decode(
-              DioError(requestOptions: RequestOptions(path: '')))));
+              DioException(requestOptions: RequestOptions(path: '')))));
 
       // act
       final result = await usecase.call(NoParams());
@@ -57,7 +57,7 @@ void main() {
       // assert
       expect(
           Left(DioFailure.decode(
-              DioError(requestOptions: RequestOptions(path: '')))),
+              DioException(requestOptions: RequestOptions(path: '')))),
           equals(result));
     },
   );

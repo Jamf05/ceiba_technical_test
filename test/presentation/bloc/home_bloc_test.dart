@@ -62,7 +62,7 @@ void main() {
     build: () {
       when(mockGetUserListUseCase.call(NoParams())).thenAnswer((_) async =>
           Left(DioFailure.decode(
-              DioError(requestOptions: RequestOptions(path: '')))));
+              DioException(requestOptions: RequestOptions(path: '')))));
       return homeBloc;
     },
     act: (bloc) => bloc.add(const GetUserDataEvent()),
@@ -71,7 +71,7 @@ void main() {
       const HomeInitial(),
       const HomeLoadingState(),
       HomeFailureState(DioFailure.decode(
-          DioError(requestOptions: RequestOptions(path: '')))),
+          DioException(requestOptions: RequestOptions(path: '')))),
       const HomeInitial(),
       const HomeLoadingState(),
     ],

@@ -62,7 +62,7 @@ void main() {
     build: () {
       when(mockGetPostsListUseCase.call(tUserId)).thenAnswer((_) async => Left(
           DioFailure.decode(
-              DioError(requestOptions: RequestOptions(path: '')))));
+              DioException(requestOptions: RequestOptions(path: '')))));
       return postsListBloc;
     },
     act: (bloc) => bloc.add(const GetPostsListEvent(tUserId)),
@@ -71,7 +71,7 @@ void main() {
       const PostsListInitial(),
       const PostsListLoadingState(),
       PostsListFailureState(DioFailure.decode(
-          DioError(requestOptions: RequestOptions(path: '')))),
+          DioException(requestOptions: RequestOptions(path: '')))),
       const PostsListInitial(),
       const PostsListLoadingState(),
     ],
