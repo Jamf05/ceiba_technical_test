@@ -8,8 +8,6 @@ import 'package:ceiba_technical_test/core/localization/app_localizations.dart';
 import 'package:ceiba_technical_test/core/settings/app_routes.dart';
 import 'package:ceiba_technical_test/core/settings/app_settings.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/wrap_banner_widget.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -31,35 +29,31 @@ class _AppState extends State<App> {
     return ValueListenableBuilder<ThemeData>(
       valueListenable: AppTheme.selected,
       builder: (context, value, state) {
-        return ScreenUtilInit(
-            builder: (BuildContext context, Widget? child) {
-          return WrapBanner(
-            label: Env.environment,
-            visible: Env.bannerEnvironment,
-            child: MaterialApp(
-                builder: (context, child) => MediaQuery(
-                    data: MediaQuery.of(context)
-                        .copyWith(alwaysUse24HourFormat: false),
-                    child: child!),
-                navigatorObservers: [NavigationHistoryObserver()],
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  DefaultCupertinoLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  DefaultWidgetsLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('es', 'US'),
-                  Locale("en"),
-                ],
-                debugShowCheckedModeBanner: false,
-                home: const SplashPage(),
-                routes: AppRoutes.of(context),
-                theme: value),
-          );
-        });
+        return WrapBanner(
+          label: Env.environment,
+          visible: Env.bannerEnvironment,
+          child: MaterialApp(
+              builder: (context, child) => MediaQuery(
+                  data: MediaQuery.of(context)
+                      .copyWith(alwaysUse24HourFormat: false),
+                  child: child!),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                DefaultWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('es', 'US'),
+                Locale("en"),
+              ],
+              debugShowCheckedModeBanner: false,
+              home: const SplashPage(),
+              routes: AppRoutes.of(context),
+              theme: value),
+        );
       },
     );
   }

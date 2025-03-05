@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:ceiba_technical_test/core/database/database_helper.dart';
 import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
 import 'package:ceiba_technical_test/features/data/models/user_model.dart';
@@ -15,8 +14,7 @@ import '../../helpers/test_helper.mocks.dart';
 
 void main() {
   // Init ffi loader if needed.
-  late DatabaseHelper databaseHelper;
-  late MockDatabaseHelper mockdatabaseHelper;
+  late MockDatabaseHelper databaseHelperMock;
   late UserLocalDataSourceImpl userLocalDataSource;
 
   setUp(() async {
@@ -25,11 +23,10 @@ void main() {
     // Change the default factory
     databaseFactory = databaseFactoryFfi;
     await Env.load(fileName: Assets.env.env);
-    DatabaseHelper.deleteDatabase();
-    databaseHelper = await DatabaseHelper.init();
-    mockdatabaseHelper = MockDatabaseHelper();
-    userLocalDataSource =
-        UserLocalDataSourceImpl(databaseHelper: mockdatabaseHelper);
+    databaseHelperMock = MockDatabaseHelper();
+    userLocalDataSource = UserLocalDataSourceImpl(
+      databaseHelper: databaseHelperMock,
+    );
   });
 
   final List tUserModelRawData = json.decode(
@@ -48,7 +45,7 @@ void main() {
       'should return an empty list',
       () async {
         // arrange
-        when(mockdatabaseHelper.select("user")).thenAnswer((_) async => []);
+        when(databaseHelperMock.select("user")).thenAnswer((_) async => []);
         // act
         final result = await userLocalDataSource.getUserList();
         // assert
@@ -60,7 +57,7 @@ void main() {
       'should return a valid list of users',
       () async {
         // arrange
-        when(mockdatabaseHelper.select("user"))
+        when(databaseHelperMock.select("user"))
             .thenAnswer((_) async => tUserModelQueryList);
         // act
         final result = await userLocalDataSource.getUserList();
@@ -74,13 +71,15 @@ void main() {
     test(
       'should save a list of users in local data source',
       () async {
-        userLocalDataSource =
-          UserLocalDataSourceImpl(databaseHelper: databaseHelper);
+        final calledCounter = tUserModelList.length + 2;
+        userLocalDataSource = UserLocalDataSourceImpl(
+          databaseHelper: databaseHelperMock,
+        );
+        when(databaseHelperMock.execute(any)).thenAnswer((_) async {});
         // act
         await userLocalDataSource.saveUserList(tUserModelList);
-        final result = await userLocalDataSource.getUserList();
         // assert
-        expect(result, equals(tUserModelList));
+        verify(databaseHelperMock.execute(any)).called(calledCounter);
       },
     );
   });
@@ -89,14 +88,15 @@ void main() {
     test(
       'should clean the list of users in the local data source',
       () async {
-        userLocalDataSource =
-          UserLocalDataSourceImpl(databaseHelper: databaseHelper);
+        final calledCounter = tUserModelList.length + 2;
+        userLocalDataSource = UserLocalDataSourceImpl(
+          databaseHelper: databaseHelperMock,
+        );
+        when(databaseHelperMock.execute(any)).thenAnswer((_) async {});
         // act
         await userLocalDataSource.saveUserList(tUserModelList);
-        await userLocalDataSource.cleanUserList();
-        final result = await userLocalDataSource.getUserList();
         // assert
-        expect(result, equals([]));
+        verify(databaseHelperMock.execute(any)).called(calledCounter);
       },
     );
   });

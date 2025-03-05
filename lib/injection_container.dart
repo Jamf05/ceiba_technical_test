@@ -6,11 +6,8 @@ import 'package:ceiba_technical_test/features/data/datasource/user_local_data_so
 import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart';
-import 'package:ceiba_technical_test/features/data/repositories/user_repository_impl.dart';
-import 'package:ceiba_technical_test/features/domain/repositories/user_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -34,9 +31,6 @@ Future<void> init() async {
    * Repositories
    */
 
-  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
-      userRemoteDataSource: sl(), userLocalDataSource: sl()));
-
   /**
    * Data Sources
    */
@@ -55,12 +49,11 @@ Future<void> init() async {
   /**
    * Database 
    */
-  final databaseHelper = await DatabaseHelper.init();
+  final DatabaseHelper databaseHelper = DatabaseHelperImpl.instance;
+  await databaseHelper.init();
   sl.registerLazySingleton(() => databaseHelper);
 
   /**
    * Externals
    */
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
 }

@@ -37,10 +37,10 @@ class SplashPageState extends BaseBlocState<SplashPage, SplashBloc> {
           bloc: bloc,
           builder: (BuildContext context, state) {
             switch (state.runtimeType) {
-              case CheckAuthenticatedState _:
+              case const (CheckAuthenticatedState):
                 redirect(bloc.sessionStatus);
                 break;
-              case RejectUserConfirmationState _:
+              case const (RejectUserConfirmationState):
                 redirect(SessionStatus.inactive);
                 break;
             }

@@ -2,17 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/core/utils/database_utils.dart';
-import 'package:ceiba_technical_test/core/utils/update_application_utils.dart';
 import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SchemaDB {
   static const userName = 'user';
-  static const userTable = ''' 
+  static const userTable = '''
     CREATE TABLE IF NOT EXISTS user (
       id INTEGER PRIMARY KEY NOT NULL,
       name TEXT NOT NULL,
@@ -38,14 +35,31 @@ class SchemaDB {
   ];
 }
 
-class DatabaseHelper {
-  static const _databaseName = "ceiba_technical_test.db";
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
-  DatabaseHelper._internal();
+abstract class DatabaseHelper {
+  Future<DatabaseHelper> init();
+  Future<void> deleteDatabase();
+  Future<int> insert(String table, Map<String, dynamic> values);
+  Future<List<Map<dynamic, dynamic>>?> select(String table,
+      {List<String>? cols,
+      String? where,
+      List<dynamic>? whereArgs,
+      String? orderBy,
+      int? limit});
+  Future<void> update(String table, Map<String, dynamic> values, String where,
+      List<dynamic> whereArgs);
+  Future<void> delete(String table, {Database? db});
+  Future<void> execute(String? sql, {Database? db});
+}
 
+class DatabaseHelperImpl implements DatabaseHelper {
+  static const _databaseName = "ceiba_technical_test.db";
+  static final DatabaseHelperImpl _instance = DatabaseHelperImpl._internal();
+  static DatabaseHelper get instance => _instance;
+  DatabaseHelperImpl._internal();
   late Database _database;
 
-  static Future<DatabaseHelper> init() async {
+  @override
+  Future<DatabaseHelper> init() async {
     _instance._database = await _instance._initDatabase();
     return _instance;
   }
@@ -53,16 +67,18 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, _databaseName);
-    final databaseVersion = UpdateApplicationUtils.appVersionToInt(Env.version);
-    Database database = await openDatabase(path,
-        version: databaseVersion,
-        onCreate: _onCreate,
-        onUpgrade: _onUpgrade,
-        onDowngrade: _onDowngrade);
+    Database database = await openDatabase(
+      path,
+      version: 0,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+      onDowngrade: _onDowngrade,
+    );
     return database;
   }
 
-  static Future<void> deleteDatabase() async {
+  @override
+  Future<void> deleteDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, _databaseName);
     await databaseFactory.deleteDatabase(path);
@@ -75,6 +91,7 @@ class DatabaseHelper {
     }
   }
 
+  @override
   Future<int> insert(String table, Map<String, dynamic> values) async {
     log("${table.toString()}, ${values.toString()}", name: "INSERTDB");
     Database? db = _instance._database;
@@ -82,6 +99,7 @@ class DatabaseHelper {
     return id;
   }
 
+  @override
   Future<List<Map<dynamic, dynamic>>?> select(String table,
       {List<String>? cols,
       String? where,
@@ -100,6 +118,7 @@ class DatabaseHelper {
     return maps;
   }
 
+  @override
   Future<void> update(String table, Map<String, dynamic> values, String where,
       List<dynamic> whereArgs) async {
     Database? db = _database;
@@ -116,6 +135,7 @@ class DatabaseHelper {
     await db_.execute(sql ?? "");
   }
 
+  @override
   Future<void> delete(String table, {Database? db}) async {
     String sql = "DROP TABLE IF EXISTS $table;";
     Database? db_ = db ?? _database;
@@ -173,9 +193,6 @@ class DatabaseHelper {
   }
 
   Future<void> _clearAllTable(Database db) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.clear();
-
     List<String> tableNames = (await db
             .query('sqlite_master', where: 'type = ?', whereArgs: ['table']))
         .map((row) => row['name'].toString())

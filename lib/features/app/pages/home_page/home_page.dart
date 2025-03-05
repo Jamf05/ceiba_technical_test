@@ -7,10 +7,9 @@ import 'package:ceiba_technical_test/features/app/pages/home_page/widgets/user_c
 import 'package:ceiba_technical_test/features/app/custom/widgets/circular_progress_indicator_widget.dart';
 import 'package:ceiba_technical_test/features/app/custom/widgets/custom_text_field.dart';
 import 'package:ceiba_technical_test/features/app/pages/posts_list_page/posts_list_page.dart';
-import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/injection_container.dart';
+import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/core/page/base_bloc_state.dart';
-import 'package:ceiba_technical_test/features/app/blocs/global/global_session_bloc/global_session_bloc.dart';
 import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -23,7 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
-  final gBloc = sl<GlobalSessionBloc>();
   @override
   void onInitState() {
     bloc.add(const GetUserDataEvent());
@@ -43,8 +41,8 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
           child: FloatingActionButton(
             child: const Icon(Icons.cleaning_services_outlined),
             onPressed: () {
-              DatabaseHelper.deleteDatabase();
-              DatabaseHelper.init();
+              sl<DatabaseHelper>().deleteDatabase();
+              sl<DatabaseHelper>().init();
             },
           ),
         ),
