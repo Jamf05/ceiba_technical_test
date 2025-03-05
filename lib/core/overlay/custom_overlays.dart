@@ -308,7 +308,7 @@ class Show {
               duration: duration ?? const Duration(milliseconds: 2500),
               background: background,
             ));
-    overlayState?.insert(overlayEntry);
+    overlayState.insert(overlayEntry);
     Future.delayed(const Duration(milliseconds: 3500)).then((_) {
       overlayEntry.remove();
     });
@@ -434,7 +434,7 @@ class Show {
                     ),
                   ),
             ));
-    overlayState?.insert(overlayEntry);
+    overlayState.insert(overlayEntry);
     Future.delayed(remove ?? const Duration(seconds: 10)).then((_) {
       overlayEntry.remove();
     });

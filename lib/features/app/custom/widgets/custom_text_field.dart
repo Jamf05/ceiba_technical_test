@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget with BaseWidget {
   final TextStyle? labelStyle;
   final TextStyle? style;
   const CustomTextField({
-    Key? key,
+    super.key,
     this.maxLength,
     this.maxLines = 1,
     this.minLines,
@@ -51,7 +51,7 @@ class CustomTextField extends StatelessWidget with BaseWidget {
     this.hintStyle,
     this.labelStyle,
     this.style,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

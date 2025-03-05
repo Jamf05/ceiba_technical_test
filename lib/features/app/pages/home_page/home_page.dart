@@ -17,7 +17,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class HomePage extends StatefulWidget {
   static const route = "/HomePage";
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
   @override
   HomePageState createState() => HomePageState();
 }

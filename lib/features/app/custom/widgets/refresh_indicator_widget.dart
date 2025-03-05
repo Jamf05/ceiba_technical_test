@@ -5,8 +5,7 @@ class RefreshIndicatorWidget extends StatelessWidget with BaseWidget {
   final Future<void> Function() onRefresh;
   final Widget child;
   const RefreshIndicatorWidget(
-      {Key? key, required this.onRefresh, required this.child})
-      : super(key: key);
+      {super.key, required this.onRefresh, required this.child});
 
   @override
   Widget build(BuildContext context) {

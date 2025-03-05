@@ -4,7 +4,7 @@ import 'package:ceiba_technical_test/features/app/custom/widgets/circular_progre
 
 class LoadingWidget extends StatelessWidget with BaseWidget {
   final String message;
-  const LoadingWidget({Key? key, required this.message}) : super(key: key);
+  const LoadingWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

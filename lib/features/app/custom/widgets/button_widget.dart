@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget with BaseWidget {
   final double sizeLoading;
   final double strokeWidthLoading;
   const ButtonWidget(
-      {Key? key,
+      {super.key,
       this.text,
       this.child,
       this.width,
@@ -34,8 +34,7 @@ class ButtonWidget extends StatelessWidget with BaseWidget {
       this.strokeWidthLoading = 2.5,
       this.margin,
       this.padding,
-      this.visible = true})
-      : super(key: key);
+      this.visible = true});
 
   @override
   Widget build(BuildContext context) {

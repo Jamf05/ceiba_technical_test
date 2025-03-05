@@ -1,4 +1,4 @@
-library app_settings;
+library;
 
 import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/core/extensions/color.dart';

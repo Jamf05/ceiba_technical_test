@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PostsListPage extends StatefulWidget {
   final UserEntity user;
   static const route = "/PostsListPage";
-  const PostsListPage({Key? key, required this.user}) : super(key: key);
+  const PostsListPage({super.key, required this.user});
 
   @override
   State<PostsListPage> createState() => _PostsListPageState();

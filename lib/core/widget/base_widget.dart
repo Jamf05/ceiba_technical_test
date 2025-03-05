@@ -5,7 +5,7 @@ export 'package:ceiba_technical_test/core/overlay/custom_overlays.dart';
 import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/core/localization/app_localizations.dart';
 
-class BaseWidget {
+mixin BaseWidget {
   static late AppLocalizations _l10n;
   static late Size _size;
   static late ThemeData _theme;

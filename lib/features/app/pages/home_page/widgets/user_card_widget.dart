@@ -8,11 +8,11 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
   final void Function()? onPressed;
   final bool showButton;
   const UserCardWidget({
-    Key? key,
+    super.key,
     required this.user,
     this.onPressed,
     this.showButton = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

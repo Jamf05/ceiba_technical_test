@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? titleSpacing;
   final double? leadingWidth;
   CustomAppBar(
-      {Key? key,
+      {super.key,
       this.overrideTitle,
       this.elevation,
       this.titleText,
@@ -40,8 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leadingWidth,
   })
       : preferredSize =
-            _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height),
-        super(key: key);
+            _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height);
   @override
   Widget build(BuildContext context) {
     return AppBar(

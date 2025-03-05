@@ -24,7 +24,7 @@ class AppTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
             (states) => AppColors.greenFirst.withOpacity(0.05)),
       ),
     ),
@@ -46,7 +46,7 @@ class AppTheme {
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
-        overlayColor: MaterialStateColor.resolveWith(
+        overlayColor: WidgetStateColor.resolveWith(
             (states) => Colors.greenAccent.withOpacity(0.05)),
       ),
     ),
