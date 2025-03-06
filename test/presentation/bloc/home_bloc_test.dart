@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:ceiba_technical_test/core/failures/exception.dart';
-import 'package:ceiba_technical_test/core/usecase/usecase.dart';
+import 'package:ceiba_technical_test/core/types/usecase.dart';
 import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
-import 'package:ceiba_technical_test/features/data/models/user_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -28,7 +28,7 @@ void main() {
     JsonHelpers.readJson(DummyData.usersListResponse),
   );
   final List<UserEntity> tUserModelList =
-      tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
+      tUserModelRawData.map((e) => UserMapper().fromJson(e)).toList();
 
   test(
     'initial state should be empty',

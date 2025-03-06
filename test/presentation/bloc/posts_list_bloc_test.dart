@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:ceiba_technical_test/core/failures/exception.dart';
 import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,8 +34,8 @@ void main() {
   final List tPostsModelRawData = json.decode(
     JsonHelpers.readJson(DummyData.postsListResponse),
   );
-  final List<PostModel> tPostsModelList = tPostsModelRawData
-      .map((e) => PostModel.fromJson(Map<String, dynamic>.from(e)))
+  final List<PostEntity> tPostsModelList = tPostsModelRawData
+      .map((e) => PostMapper().fromJson(Map<String, dynamic>.from(e)))
       .toList();
 
   blocTest<PostsListBloc, PostsListState>(

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
 
 void main() {
-  const tCompanyModelFromJson = PostModel(
+  const tCompanyModelFromJson = PostEntity(
     userId: 1,
     id: 1,
     title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
@@ -24,7 +25,7 @@ void main() {
         );
 
         // act
-        final result = PostModel.fromJson(jsonMap);
+        final result = PostMapper().fromJson(jsonMap);
 
         // assert
         expect(result, equals(tCompanyModelFromJson));

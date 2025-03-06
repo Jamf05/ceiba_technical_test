@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:ceiba_technical_test/core/api/api_provider.dart';
 import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart';
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
-import 'package:ceiba_technical_test/features/data/models/user_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
+import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
+import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,7 +31,7 @@ void main() {
     final List tUserModelRawData = json.decode(
       JsonHelpers.readJson(DummyData.usersListResponse),
     );
-    final List<UserModel> tUserModelList = tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
+    final List<UserEntity> tUserModelList = tUserModelRawData.map((e) => UserMapper().fromJson(e)).toList();
 
     test(
       'should return the list of users when the response code is 200',
@@ -58,8 +60,8 @@ void main() {
         .decode(
           JsonHelpers.readJson(DummyData.postsListResponse),
         );
-    final List<PostModel> tPostsModelList = tPostsModelRawData
-        .map((e) => PostModel.fromJson(Map<String, dynamic>.from(e)))
+    final List<PostEntity> tPostsModelList = tPostsModelRawData
+        .map((e) => PostMapper().fromJson(Map<String, dynamic>.from(e)))
         .toList();
 
     test(

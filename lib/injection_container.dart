@@ -3,6 +3,8 @@ import 'package:ceiba_technical_test/core/database/database_helper.dart';
 import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
 import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
+import 'package:ceiba_technical_test/features/data/repositories/user_repository_impl.dart';
+import 'package:ceiba_technical_test/features/domain/repositories/user_repository.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:get_it/get_it.dart';
@@ -30,6 +32,8 @@ Future<void> init() async {
   /** 
    * Repositories
    */
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+      userRemoteDataSource: sl(), userLocalDataSource: sl()));
 
   /**
    * Data Sources

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:ceiba_technical_test/features/data/models/company_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/company_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/company_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
 
 void main() {
-  const tCompanyModelFromJson = CompanyModel(
+  const tCompanyModelFromJson = CompanyEntity(
         name: "Romaguera-Crona",
         catchPhrase: "Multi-layered client-server neural-net",
         bs: "harness real-time e-markets");
@@ -22,7 +23,7 @@ void main() {
         );
 
         // act
-        final result = CompanyModel.fromJson(jsonMap);
+        final result = CompanyMapper().fromJson(jsonMap);
 
         // assert
         expect(result, equals(tCompanyModelFromJson));

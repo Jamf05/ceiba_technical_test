@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:ceiba_technical_test/core/env.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
-import 'package:ceiba_technical_test/features/data/models/user_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -36,8 +37,8 @@ void main() {
   final List<Map<dynamic, dynamic>> tUserModelQueryList =
       tUserModelRawData.map((e) => Map<dynamic, dynamic>.from(e)).toList();
 
-  final List<UserModel> tUserModelList = tUserModelRawData
-      .map((e) => UserModel.fromQuery(Map<String, dynamic>.from(e)))
+  final List<UserEntity> tUserModelList = tUserModelRawData
+      .map((e) => UserMapper().fromQuery(Map<String, dynamic>.from(e)))
       .toList();
 
   group('get user list', () {

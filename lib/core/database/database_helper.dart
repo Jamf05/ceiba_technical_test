@@ -69,7 +69,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
     String path = join(documentDirectory.path, _databaseName);
     Database database = await openDatabase(
       path,
-      version: 0,
+      version: 1,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
       onDowngrade: _onDowngrade,
@@ -129,6 +129,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
     log("$res", name: "UPDATEDB-RES");
   }
 
+  @override
   Future<void> execute(String? sql, {Database? db}) async {
     log(sql ?? "", name: "EXECUTEDB");
     Database? db_ = db ?? _database;

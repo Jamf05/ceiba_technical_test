@@ -1,12 +1,14 @@
 import 'package:ceiba_technical_test/core/failures/error.dart';
 import 'package:ceiba_technical_test/core/failures/exception.dart';
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
-import 'package:ceiba_technical_test/features/data/models/user_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
+import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
+import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:dio/dio.dart';
 
 abstract class UserRemoteDataSource {
-  Future<List<UserModel>> getUserList();
-  Future<List<PostModel>> getPostsList(int userId);
+  Future<List<UserEntity>> getUserList();
+  Future<List<PostEntity>> getPostsList(int userId);
 }
 
 class UserRemoteDataSourceImpl
@@ -14,10 +16,10 @@ class UserRemoteDataSourceImpl
   final Dio client;
   UserRemoteDataSourceImpl({required this.client});
   @override
-  Future<List<UserModel>> getUserList() async {
+  Future<List<UserEntity>> getUserList() async {
     try {
       final res = await client.get("/users");
-      return (res.data as List).map((e) => UserModel.fromJson(e)).toList();
+      return (res.data as List).map((e) => UserMapper().fromJson(e)).toList();
     } on DioException catch (error) {
       throw DioFailure.decode(error);
     } on Error catch (error) {
@@ -28,10 +30,10 @@ class UserRemoteDataSourceImpl
   }
 
   @override
-  Future<List<PostModel>> getPostsList(int userId) async {
+  Future<List<PostEntity>> getPostsList(int userId) async {
     try {
       final res = await client.get("/posts", queryParameters: {"userId": userId});
-      return (res.data as List).map((e) => PostModel.fromJson(e)).toList();
+      return (res.data as List).map((e) => PostMapper().fromJson(e)).toList();
     } on DioException catch (error) {
       throw DioFailure.decode(error);
     } on Error catch (error) {

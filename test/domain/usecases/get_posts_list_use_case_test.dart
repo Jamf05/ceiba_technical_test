@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:ceiba_technical_test/core/failures/exception.dart';
-import 'package:ceiba_technical_test/features/data/models/posts_model.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -25,8 +26,8 @@ void main() {
   final List tPostsModelRawData = json.decode(
     JsonHelpers.readJson(DummyData.postsListResponse),
   );
-  final List<PostModel> tPostsModelList = tPostsModelRawData
-      .map((e) => PostModel.fromJson(Map<String, dynamic>.from(e)))
+  final List<PostEntity> tPostsModelList = tPostsModelRawData
+      .map((e) => PostMapper().fromJson(Map<String, dynamic>.from(e)))
       .toList();
 
   test(

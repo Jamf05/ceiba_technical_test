@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:ceiba_technical_test/core/failures/exception.dart';
-import 'package:ceiba_technical_test/core/usecase/usecase.dart';
-import 'package:ceiba_technical_test/features/data/models/user_model.dart';
+import 'package:ceiba_technical_test/core/types/usecase.dart';
+import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
+import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -25,8 +26,8 @@ void main() {
   final List tUserModelRawData = json.decode(
       JsonHelpers.readJson(DummyData.usersListResponse),
     );
-    final List<UserModel> tUserModelList =
-        tUserModelRawData.map((e) => UserModel.fromJson(e)).toList();
+    final List<UserEntity> tUserModelList =
+        tUserModelRawData.map((e) => UserMapper().fromJson(e)).toList();
 
   test(
     'should the current list of users from the repository',
