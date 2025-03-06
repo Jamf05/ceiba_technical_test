@@ -15,22 +15,6 @@ class AddressEntity extends Equatable {
     this.geo,
   });
 
-  AddressEntity copyWith({
-    String? street,
-    String? suite,
-    String? city,
-    String? zipcode,
-    LatLng? geo,
-  }) {
-    return AddressEntity(
-      street: street ?? this.street,
-      suite: suite ?? this.suite,
-      city: city ?? this.city,
-      zipcode: zipcode ?? this.zipcode,
-      geo: geo ?? this.geo,
-    );
-  }
-
   @override
   List<Object?> get props => [
         street,

@@ -27,7 +27,16 @@ class UserMapper implements Mapper<UserEntity> {
   }
 
   @override
-  Map<String, dynamic> toJson(UserEntity object) {
-    throw UnimplementedError();
+  Map<String, dynamic> toJson(UserEntity? object) {
+    return {
+      "id": object?.id,
+      "name": object?.name,
+      "username": object?.username,
+      "email": object?.email,
+      "address": AddressMapper().toJson(object?.address),
+      "phone": object?.phone,
+      "website": object?.website,
+      "company": CompanyMapper().toJson(object?.company),
+    };
   }
 }

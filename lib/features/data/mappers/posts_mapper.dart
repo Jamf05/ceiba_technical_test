@@ -11,7 +11,12 @@ class PostMapper implements Mapper<PostEntity> {
       );
 
   @override
-  Map<String, dynamic> toJson(PostEntity object) {
-    throw UnimplementedError();
+  Map<String, dynamic> toJson(PostEntity? object) {
+    return {
+      "userId": object?.userId,
+      "id": object?.id,
+      "title": object?.title,
+      "body": object?.body,
+    };
   }
 }

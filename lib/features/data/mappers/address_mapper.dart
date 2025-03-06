@@ -14,7 +14,16 @@ class AddressMapper implements Mapper<AddressEntity> {
       );
 
   @override
-  Map<String, dynamic> toJson(AddressEntity object) {
-    throw UnimplementedError();
+  Map<String, dynamic> toJson(AddressEntity? object) {
+    return {
+      "street": object?.street,
+      "suite": object?.suite,
+      "city": object?.city,
+      "zipcode": object?.zipcode,
+      "geo": {
+        "lat": object?.geo?.lat.toString(),
+        "lng": object?.geo?.lng.toString(),
+      },
+    };
   }
 }

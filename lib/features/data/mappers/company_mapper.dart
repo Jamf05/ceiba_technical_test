@@ -10,7 +10,11 @@ class CompanyMapper implements Mapper<CompanyEntity> {
       );
 
   @override
-  Map<String, dynamic> toJson(CompanyEntity object) {
-    throw UnimplementedError();
+  Map<String, dynamic> toJson(CompanyEntity? object) {
+    return {
+      "name": object?.name,
+      "catchPhrase": object?.catchPhrase,
+      "bs": object?.bs,
+    };
   }
 }
