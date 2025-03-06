@@ -7,7 +7,6 @@ import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
@@ -20,9 +19,7 @@ void main() {
 
   setUp(() async {
     // Initialize FFI
-    sqfliteFfiInit();
     // Change the default factory
-    databaseFactory = databaseFactoryFfi;
     await Env.load(fileName: Assets.env.env);
     databaseHelperMock = MockDatabaseHelper();
     userLocalDataSource = UserLocalDataSourceImpl(

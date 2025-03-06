@@ -36,7 +36,9 @@ class _PostsListPageState extends BaseBlocState<PostsListPage, PostsListBloc> {
         buildWhen: (previous, current) => current is PostsListLoadingState,
         listener: (context, state) {
           if (state is PostsListFailureState) {
-            show.eitherError(state.failure);
+              final snackBar =
+                  SnackBar(content: Text(state.failure.message.toString()));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         builder: (context, state) {

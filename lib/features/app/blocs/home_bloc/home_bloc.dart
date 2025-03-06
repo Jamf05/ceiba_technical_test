@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:ceiba_technical_test/core/failures/failure.dart';
 import 'package:ceiba_technical_test/core/localization/app_localizations.dart';
-import 'package:ceiba_technical_test/core/overlay/custom_overlays.dart';
 import 'package:ceiba_technical_test/core/types/usecase.dart';
 import 'package:ceiba_technical_test/core/validators/text_input.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';

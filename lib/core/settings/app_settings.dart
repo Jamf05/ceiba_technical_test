@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:ceiba_technical_test/core/extensions/color.dart';
 
 export '../extensions/color.dart';
-export '../extensions/date_time.dart';
-export '../extensions/list.dart';
-export '../extensions/string.dart';
-export '../extensions/time_of_day.dart';
 export 'package:ceiba_technical_test/gen/assets.gen.dart';
 
 part 'app_assets.dart';

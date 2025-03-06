@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ceiba_technical_test/core/page/base_bloc_state.dart';
-import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart'; 
+import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart';
 import 'package:ceiba_technical_test/features/app/pages/home_page/home_page.dart';
-import 'package:ceiba_technical_test/features/domain/entities/enums/session_status.dart';
 
 class SplashPage extends StatefulWidget {
   static const route = "/SplashPage";
@@ -27,23 +26,15 @@ class SplashPageState extends BaseBlocState<SplashPage, SplashBloc> {
         bloc: bloc,
         listener: (context, state) {
           if (state is FailureState) {
-            show.dialog(
-                title: 'Advertencia',
-                useSingleAction: true,
-                message: (state.failure.message));
+            final snackBar =
+                SnackBar(content: Text(state.failure.message.toString()));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         child: BlocBuilder(
           bloc: bloc,
           builder: (BuildContext context, state) {
-            switch (state.runtimeType) {
-              case const (CheckAuthenticatedState):
-                redirect(bloc.sessionStatus);
-                break;
-              case const (RejectUserConfirmationState):
-                redirect(SessionStatus.inactive);
-                break;
-            }
+            redirect();
             return Center(
               child: Image.asset(
                 Assets.splash.splashIconPng.path,
@@ -57,12 +48,9 @@ class SplashPageState extends BaseBlocState<SplashPage, SplashBloc> {
     );
   }
 
-  Future<Timer> redirect(SessionStatus? session) async {
+  Future<Timer> redirect() async {
     return Timer(const Duration(milliseconds: 700), () {
-      switch (session) {
-        default:
-          nav.offAll(const HomePage());
-      }
+      nav.offAll(const HomePage());
     });
   }
 }

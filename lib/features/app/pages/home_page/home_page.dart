@@ -51,7 +51,9 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
           buildWhen: (previous, current) => current is HomeLoadingState,
           listener: (context, state) {
             if (state is HomeFailureState) {
-              show.eitherError(state.failure);
+              final snackBar =
+                  SnackBar(content: Text(state.failure.message.toString()));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
           },
           builder: (context, state) {
@@ -87,9 +89,8 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
                               ))
                     else
                       EmptyItemWidget(
-                        icon: MdiIcons.formatListBulletedSquare,
-                        message: l10n.homePageSeeListIsEmpty
-                      )
+                          icon: MdiIcons.formatListBulletedSquare,
+                          message: l10n.homePageSeeListIsEmpty)
                   ],
                 ),
               ),
