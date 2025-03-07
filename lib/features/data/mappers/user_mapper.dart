@@ -5,15 +5,15 @@ import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 
 class UserMapper implements Mapper<UserEntity> {
   @override
-  UserEntity fromJson(Map<String, dynamic> json) => UserEntity(
-        id: json["id"],
-        name: json["name"],
-        username: json["username"],
-        email: json["email"],
-        address: AddressMapper().fromJson(json["address"]),
-        phone: json["phone"],
-        website: json["website"],
-        company: CompanyMapper().fromJson(json["company"]),
+  UserEntity fromJson(Map<String, dynamic>? json) => UserEntity(
+        id: json?["id"],
+        name: json?["name"],
+        username: json?["username"],
+        email: json?["email"],
+        address: AddressMapper().fromJson(json?["address"]),
+        phone: json?["phone"],
+        website: json?["website"],
+        company: CompanyMapper().fromJson(json?["company"]),
       );
 
   UserEntity fromQuery(Map<String, dynamic> query) {

@@ -32,4 +32,22 @@ void main() {
       },
     );
   });
+
+  group('to json', (){
+    test(
+      'should return a valid json from model',
+      () async {
+        // arrange
+        final Map<String, dynamic> jsonMap = json.decode(
+          JsonHelpers.readJson(DummyData.postResponse),
+        );
+
+        // act
+        final result = PostMapper().toJson(tCompanyModelFromJson);
+
+        // assert
+        expect(result, equals(jsonMap));
+      },
+    );
+  });
 }

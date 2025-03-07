@@ -3,10 +3,10 @@ import 'package:ceiba_technical_test/features/domain/entities/company_entity.dar
 
 class CompanyMapper implements Mapper<CompanyEntity> {
   @override
-  CompanyEntity fromJson(Map<String, dynamic> json) => CompanyEntity(
-        name: json["name"],
-        catchPhrase: json["catchPhrase"],
-        bs: json["bs"],
+  CompanyEntity fromJson(Map<String, dynamic>? json) => CompanyEntity(
+        name: json?["name"] ,
+        catchPhrase: json?["catchPhrase"],
+        bs: json?["bs"],
       );
 
   @override

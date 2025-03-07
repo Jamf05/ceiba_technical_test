@@ -75,4 +75,22 @@ void main() {
       },
     );
   });
+
+  group('to json', () {
+    test(
+      'should return a valid json from model',
+      () async {
+        // arrange
+        final Map<String, dynamic> jsonMap = json.decode(
+          JsonHelpers.readJson(DummyData.userResponse),
+        );
+
+        // act
+        final result = UserMapper().toJson(tUserModelFromJson);
+
+        // assert
+        expect(result, equals(jsonMap));
+      },
+    );
+  });
 }

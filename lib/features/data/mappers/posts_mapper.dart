@@ -3,11 +3,11 @@ import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart'
 
 class PostMapper implements Mapper<PostEntity> {
   @override
-  PostEntity fromJson(Map<String, dynamic> json) => PostEntity(
-        userId: json["userId"],
-        id: json["id"],
-        title: json["title"],
-        body: json["body"],
+  PostEntity fromJson(Map<String, dynamic>? json) => PostEntity(
+        userId: json?["userId"],
+        id: json?["id"],
+        title: json?["title"],
+        body: json?["body"],
       );
 
   @override

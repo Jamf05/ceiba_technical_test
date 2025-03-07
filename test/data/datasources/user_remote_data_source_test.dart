@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:ceiba_technical_test/core/api/api_provider.dart';
 import 'package:ceiba_technical_test/core/env.dart';
+import 'package:ceiba_technical_test/core/failures/error.dart';
+import 'package:ceiba_technical_test/core/failures/exception.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart';
 import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
 import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
@@ -31,7 +33,8 @@ void main() {
     final List tUserModelRawData = json.decode(
       JsonHelpers.readJson(DummyData.usersListResponse),
     );
-    final List<UserEntity> tUserModelList = tUserModelRawData.map((e) => UserMapper().fromJson(e)).toList();
+    final List<UserEntity> tUserModelList =
+        tUserModelRawData.map((e) => UserMapper().fromJson(e)).toList();
 
     test(
       'should return the list of users when the response code is 200',
@@ -52,14 +55,67 @@ void main() {
         expect(result, equals(tUserModelList));
       },
     );
+
+    test(
+      'should throw an exception when the response code is 500',
+      () async {
+        mockDioClient.onGet(
+          "/users",
+          (server) => server.reply(
+            500,
+            {
+              "message": "Internal Server Error",
+            },
+            delay: const Duration(seconds: 1),
+          ),
+        );
+
+        // act
+        Object? object;
+        try {
+          await dataSource.getUserList.call();
+        } catch (e) {
+          object = e;
+        }
+
+        // assert
+        expect(object, isA<DioFailure>());
+      },
+    );
+
+    test(
+      'should throw an exception when the data response is not a list',
+      () async {
+        mockDioClient.onGet(
+          "/users",
+          (server) => server.reply(
+            200,
+            {
+              "message": "Internal Server Error",
+            },
+            delay: const Duration(seconds: 1),
+          ),
+        );
+
+        // act
+        Object? object;
+        try {
+          await dataSource.getUserList.call();
+        } catch (e) {
+          object = e;
+        }
+
+        // assert
+        expect(object, isA<ErrorFailure>());
+      },
+    );
   });
 
   group('get posts list', () {
     const tUserId = 1;
-    final List tPostsModelRawData = json
-        .decode(
-          JsonHelpers.readJson(DummyData.postsListResponse),
-        );
+    final List tPostsModelRawData = json.decode(
+      JsonHelpers.readJson(DummyData.postsListResponse),
+    );
     final List<PostEntity> tPostsModelList = tPostsModelRawData
         .map((e) => PostMapper().fromJson(Map<String, dynamic>.from(e)))
         .toList();
@@ -68,20 +124,77 @@ void main() {
       'should return the list of posts when the response code is 200',
       () async {
         mockDioClient.onGet(
-          "/posts",
-          (server) => server.reply(
-            200,
-            tPostsModelRawData,
-            delay: const Duration(seconds: 1),
-          ),
-          queryParameters: {"userId": tUserId}
-        );
+            "/posts",
+            (server) => server.reply(
+                  200,
+                  tPostsModelRawData,
+                  delay: const Duration(seconds: 1),
+                ),
+            queryParameters: {"userId": tUserId});
 
         // act
         final result = await dataSource.getPostsList(tUserId);
 
         // assert
         expect(result, equals(tPostsModelList));
+      },
+    );
+
+    test(
+      'should throw an exception when the response code is 500',
+      () async {
+        const tUserId = 1;
+        mockDioClient.onGet(
+          "/posts",
+          queryParameters: {"userId": tUserId},
+          (server) => server.reply(
+            500,
+            {
+              "message": "Internal Server Error",
+            },
+            delay: const Duration(seconds: 1),
+          ),
+        );
+
+        // act
+        Object? object;
+        try {
+          await dataSource.getPostsList.call(tUserId);
+        } catch (e) {
+          object = e;
+        }
+
+        // assert
+        expect(object, isA<DioFailure>());
+      },
+    );
+
+    test(
+      'should throw an exception when the data response is not a list',
+      () async {
+        const tUserId = 1;
+        mockDioClient.onGet(
+          "/posts",
+          queryParameters: {"userId": tUserId},
+          (server) => server.reply(
+            200,
+            {
+              "message": "Internal Server Error",
+            },
+            delay: const Duration(seconds: 1),
+          ),
+        );
+
+        // act
+        Object? object;
+        try {
+          await dataSource.getPostsList.call(tUserId);
+        } catch (e) {
+          object = e;
+        }
+
+        // assert
+        expect(object, isA<ErrorFailure>());
       },
     );
   });
