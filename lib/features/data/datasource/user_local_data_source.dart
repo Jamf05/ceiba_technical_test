@@ -7,9 +7,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 abstract class UserLocalDataSource {
   Future<List<UserEntity>> getUserList();
-  // Future<bool> checkIfUserListIsValid();
   Future<bool> saveUserList(List<UserEntity> list);
-  Future<bool> cleanUserList();
 }
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
@@ -50,22 +48,6 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
         );
       }
       await databaseHelper.execute('''COMMIT;''');
-      return true;
-    } on DatabaseException catch (error) {
-      throw SqfliteFailure.decode(error);
-    } on Error catch (error) {
-      throw ErrorFailure.decode(error);
-    } on Exception catch (error) {
-      throw ExceptionFailure.decode(error);
-    }
-  }
-
-  @override
-  Future<bool> cleanUserList() async {
-    try {
-      await databaseHelper.execute(
-        '''DELETE FROM user''',
-      );
       return true;
     } on DatabaseException catch (error) {
       throw SqfliteFailure.decode(error);

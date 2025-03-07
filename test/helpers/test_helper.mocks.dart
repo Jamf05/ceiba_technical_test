@@ -376,13 +376,4 @@ class MockUserLocalDataSource extends _i1.Mock
         ),
         returnValue: _i6.Future<bool>.value(false),
       ) as _i6.Future<bool>);
-
-  @override
-  _i6.Future<bool> cleanUserList() => (super.noSuchMethod(
-        Invocation.method(
-          #cleanUserList,
-          [],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
 }

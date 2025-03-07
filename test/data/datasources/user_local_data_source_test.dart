@@ -1,25 +1,27 @@
 import 'dart:convert';
 
 import 'package:ceiba_technical_test/core/env.dart';
+import 'package:ceiba_technical_test/core/failures/error.dart';
+import 'package:ceiba_technical_test/core/failures/exception.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_local_data_source.dart';
 import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
 import '../../helpers/test_helper.mocks.dart';
 
+class MockDatabaseException extends Mock implements DatabaseException {}
+
 void main() {
-  // Init ffi loader if needed.
   late MockDatabaseHelper databaseHelperMock;
   late UserLocalDataSourceImpl userLocalDataSource;
 
   setUp(() async {
-    // Initialize FFI
-    // Change the default factory
     await Env.load(fileName: Assets.env.env);
     databaseHelperMock = MockDatabaseHelper();
     userLocalDataSource = UserLocalDataSourceImpl(
@@ -63,6 +65,49 @@ void main() {
         expect(result, equals(tUserModelList));
       },
     );
+
+    test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.select("user"))
+          .thenThrow(MockDatabaseException());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.getUserList();
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<SqfliteFailure>());
+    });
+
+    test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.select("user")).thenThrow(TypeError());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.getUserList();
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<ErrorFailure>());
+    });
+
+    test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.select("user")).thenThrow(FormatException());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.getUserList();
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<ExceptionFailure>());
+    });
   });
 
   group('save user list', () {
@@ -97,5 +142,48 @@ void main() {
         verify(databaseHelperMock.execute(any)).called(calledCounter);
       },
     );
+
+        test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.execute(any))
+          .thenThrow(MockDatabaseException());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.saveUserList(tUserModelList);
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<SqfliteFailure>());
+    });
+
+    test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.execute(any)).thenThrow(TypeError());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.saveUserList(tUserModelList);
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<ErrorFailure>());
+    });
+
+    test('should return a DatabaseException', () async {
+      // arrange
+      when(databaseHelperMock.execute(any)).thenThrow(FormatException());
+      // act
+      Object? object;
+      try {
+        await userLocalDataSource.saveUserList(tUserModelList);
+      } catch (e) {
+        object = e;
+      }
+      // assert
+      expect(object, isA<ExceptionFailure>());
+    });
   });
 }
