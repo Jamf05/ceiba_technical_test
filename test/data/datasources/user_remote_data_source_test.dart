@@ -12,21 +12,27 @@ import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
+import '../../helpers/test_helper.dart';
 
 void main() {
   late Dio dioClient;
-  late DioAdapter mockDioClient;
+  late MockDio mockDioClient;
+  late DioAdapter mockDioAdapter;
   late UserRemoteDataSourceImpl dataSource;
+  late UserRemoteDataSourceImpl alterDataSource;
 
   setUp(() async {
     await Env.load(fileName: Assets.env.env);
     dioClient = ApiProvider().dio;
-    mockDioClient =
+    mockDioAdapter =
         DioAdapter(dio: dioClient, matcher: const UrlRequestMatcher());
+    mockDioClient = MockDio();
     dataSource = UserRemoteDataSourceImpl(client: dioClient);
+    alterDataSource = UserRemoteDataSourceImpl(client: mockDioClient);
   });
 
   group('get user list', () {
@@ -39,7 +45,7 @@ void main() {
     test(
       'should return the list of users when the response code is 200',
       () async {
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
           "/users",
           (server) => server.reply(
             200,
@@ -59,7 +65,7 @@ void main() {
     test(
       'should throw an exception when the response code is 500',
       () async {
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
           "/users",
           (server) => server.reply(
             500,
@@ -86,7 +92,7 @@ void main() {
     test(
       'should throw an exception when the data response is not a list',
       () async {
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
           "/users",
           (server) => server.reply(
             200,
@@ -109,6 +115,21 @@ void main() {
         expect(object, isA<ErrorFailure>());
       },
     );
+
+    test('should throw an exception', () async {
+      when(() => mockDioClient.get("/users")).thenThrow(Exception());
+
+      // act
+      Object? object;
+      try {
+        await alterDataSource.getUserList.call();
+      } catch (e) {
+        object = e;
+      }
+
+      // assert
+      expect(object, isA<ExceptionFailure>());
+    });
   });
 
   group('get posts list', () {
@@ -123,7 +144,7 @@ void main() {
     test(
       'should return the list of posts when the response code is 200',
       () async {
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
             "/posts",
             (server) => server.reply(
                   200,
@@ -144,7 +165,7 @@ void main() {
       'should throw an exception when the response code is 500',
       () async {
         const tUserId = 1;
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
           "/posts",
           queryParameters: {"userId": tUserId},
           (server) => server.reply(
@@ -173,7 +194,7 @@ void main() {
       'should throw an exception when the data response is not a list',
       () async {
         const tUserId = 1;
-        mockDioClient.onGet(
+        mockDioAdapter.onGet(
           "/posts",
           queryParameters: {"userId": tUserId},
           (server) => server.reply(
@@ -197,5 +218,24 @@ void main() {
         expect(object, isA<ErrorFailure>());
       },
     );
+
+    test('should throw an exception', () async {
+      const tUserId = 1;
+      when(() => mockDioClient.get(
+            "/posts",
+            queryParameters: {"userId": tUserId},
+          )).thenThrow(Exception());
+
+      // act
+      Object? object;
+      try {
+        await alterDataSource.getPostsList.call(tUserId);
+      } catch (e) {
+        object = e;
+      }
+
+      // assert
+      expect(object, isA<ExceptionFailure>());
+    });
   });
 }

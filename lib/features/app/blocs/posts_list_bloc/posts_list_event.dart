@@ -11,7 +11,3 @@ class GetPostsListEvent extends PostsListEvent {
   final int userId;
   const GetPostsListEvent(this.userId);
 }
-
-class PostsListLoadingEvent extends PostsListEvent {
-  const PostsListLoadingEvent();
-}

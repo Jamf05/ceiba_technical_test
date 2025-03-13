@@ -2,7 +2,7 @@
 
 coverage:
 	fvm flutter test --coverage
-	lcov --ignore-errors unused --remove coverage/lcov.info 'lib/core/gen/*' 'lib/core/localization/*' 'lib/presentation/design/fundations*' 'lib/presentation/design/tokens*' -o coverage/lcov.info
+	lcov --ignore-errors unused --remove coverage/lcov.info 'lib/core/gen/*' 'lib/core/localization/*' 'lib/core/settings*' -o coverage/lcov.info
 	genhtml coverage/lcov.info -o coverage/html
 .PHONY: coverage
 

@@ -7,26 +7,17 @@ import 'package:equatable/equatable.dart';
 part '../posts_list_bloc/posts_list_event.dart';
 part '../posts_list_bloc/posts_list_state.dart';
 
-class PostsListBloc
-    extends Bloc<PostsListEvent, PostsListState> {
+class PostsListBloc extends Bloc<PostsListEvent, PostsListState> {
   final GetPostsListUseCase _getPostsListUseCase;
-  PostsListBloc(
-      {required GetPostsListUseCase getPostsListUseCase})
+  PostsListBloc({required GetPostsListUseCase getPostsListUseCase})
       : _getPostsListUseCase = getPostsListUseCase,
         super(const PostsListInitial()) {
-    on<PostsListLoadingEvent>(_mapPostsListLoadingEventToState);
     on<GetPostsListEvent>(_mapGetPostsListEventToState);
   }
 
   bool isLoadingPage = true;
   bool sendingData = false;
   List<PostEntity> postsList = [];
-
-  void _mapPostsListLoadingEventToState(
-      PostsListLoadingEvent event, Emitter<PostsListState> emit) async {
-    emit(const PostsListInitial());
-    emit(const PostsListLoadingState());
-  }
 
   void _mapGetPostsListEventToState(
       GetPostsListEvent event, Emitter<PostsListState> emit) async {

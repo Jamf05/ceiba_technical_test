@@ -24,13 +24,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   bool isLoadingPage = true;
   bool sendingData = false;
   List<UserEntity> _userList = [];
-  List<UserEntity> filteredList = [];
+  List<UserEntity> _filteredList = [];
+  List<UserEntity> get filteredList => _filteredList;
 
   TextFormInput _query = const TextFormInput.dirty("", start: 0, end: 15);
   TextFormInput get query => _query;
   set query(TextFormInput v) {
     _query = v;
-    filteredList =
+    _filteredList =
         _userList.where((e) => e.name?.toLowerCase().contains(v.value.toLowerCase()) == true).toList();
     add(const HomeLoadingEvent());
   }
@@ -49,7 +50,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final response = await _getUserUseCase.call(NoParams());
     response.fold((l) => emit(HomeFailureState(l)), (r) {
       _userList = r ?? [];
-      filteredList = _userList;
+      _filteredList = _userList;
     });
     isLoadingPage = false;
     emit(const HomeInitial());
