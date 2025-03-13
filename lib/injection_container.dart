@@ -8,7 +8,6 @@ import 'package:ceiba_technical_test/features/domain/repositories/user_repositor
 import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use_case.dart';
 import 'package:ceiba_technical_test/features/domain/usecases/get_user_list_use_case.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart';
 import 'package:ceiba_technical_test/features/data/datasource/user_remote_data_source.dart';
 
 final sl = GetIt.instance;
@@ -18,7 +17,6 @@ Future<void> init() async {
    * Blocs
    */
 
-  sl.registerFactory(() => SplashBloc());
   sl.registerFactory(() => HomeBloc(getUserUseCase: sl()));
   sl.registerFactory(() => PostsListBloc(getPostsListUseCase: sl()));
 

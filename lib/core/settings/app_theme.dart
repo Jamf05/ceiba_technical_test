@@ -17,6 +17,7 @@ class AppTheme {
     primaryColor: AppColors.greenFirst,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.greenFirst,
+      
     ),
     scaffoldBackgroundColor: AppColors.greenSecond,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(

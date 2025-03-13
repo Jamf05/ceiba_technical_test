@@ -1,8 +1,6 @@
 import 'dart:async';
+import 'package:ceiba_technical_test/core/widget/base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ceiba_technical_test/core/page/base_bloc_state.dart';
-import 'package:ceiba_technical_test/features/app/blocs/splash_bloc/splash_bloc.dart';
 import 'package:ceiba_technical_test/features/app/pages/home_page/home_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -12,45 +10,28 @@ class SplashPage extends StatefulWidget {
   SplashPageState createState() => SplashPageState();
 }
 
-class SplashPageState extends BaseBlocState<SplashPage, SplashBloc> {
-  @override
-  void onInitState() {
-    bloc.add(CheckAuthenticatedEvent());
-    super.onInitState();
-  }
-
+class SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<SplashBloc, SplashState>(
-        bloc: bloc,
-        listener: (context, state) {
-          if (state is FailureState) {
-            final snackBar =
-                SnackBar(content: Text(state.failure.message.toString()));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
+      body: Builder(
+        builder: (BuildContext context) {
+          redirect();
+          return Center(
+            child: Image.asset(
+              Assets.splash.splashIconPng.path,
+              width: MediaQuery.sizeOf(context).width * 0.35,
+              alignment: Alignment.center,
+            ),
+          );
         },
-        child: BlocBuilder(
-          bloc: bloc,
-          builder: (BuildContext context, state) {
-            redirect();
-            return Center(
-              child: Image.asset(
-                Assets.splash.splashIconPng.path,
-                width: size.width * 0.35,
-                alignment: Alignment.center,
-              ),
-            );
-          },
-        ),
       ),
     );
   }
 
   Future<Timer> redirect() async {
     return Timer(const Duration(milliseconds: 700), () {
-      nav.offAll(const HomePage());
+      Nav.of(context).offAll(const HomePage());
     });
   }
 }
