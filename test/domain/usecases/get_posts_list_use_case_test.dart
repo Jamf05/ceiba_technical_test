@@ -7,11 +7,11 @@ import 'package:ceiba_technical_test/features/domain/usecases/get_posts_list_use
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper.dart';
 
 void main() {
   late MockUserRepository mockRepository;
@@ -34,7 +34,7 @@ void main() {
     'should the current list of posts from the repository',
     () async {
       // arrange
-      when(mockRepository.getPostsList(tUserId))
+      when(() => mockRepository.getPostsList(tUserId))
           .thenAnswer((_) async => Right(tPostsModelList));
 
       // act
@@ -49,7 +49,7 @@ void main() {
     'should return Dio Failure when a call to repository is unsuccessful',
     () async {
       // arrange
-      when(mockRepository.getPostsList(tUserId)).thenAnswer((_) async => Left(
+      when(() => mockRepository.getPostsList(tUserId)).thenAnswer((_) async => Left(
           DioFailure.decode(
               DioException(requestOptions: RequestOptions(path: '')))));
 

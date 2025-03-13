@@ -9,11 +9,11 @@ import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper.dart';
 
 void main() {
   late MockGetUserListUseCase mockGetUserListUseCase;
@@ -40,7 +40,7 @@ void main() {
   blocTest<HomeBloc, HomeState>(
     'should emit [Initial, LoadingState, Initial, LoadingState] when data is gotten successfully',
     build: () {
-      when(mockGetUserListUseCase.call(NoParams()))
+      when(() => mockGetUserListUseCase.call(NoParams()))
           .thenAnswer((_) async => Right(tUserModelList));
       return homeBloc;
     },
@@ -53,14 +53,14 @@ void main() {
       const HomeLoadingState(),
     ],
     verify: (bloc) {
-      verify(mockGetUserListUseCase.call(NoParams()));
+      verify(() => mockGetUserListUseCase.call(NoParams()));
     },
   );
 
   blocTest<HomeBloc, HomeState>(
     'should emit [Initial, LoadingState, FailureState, Initial, LoadingState] when get data is unsuccessful',
     build: () {
-      when(mockGetUserListUseCase.call(NoParams())).thenAnswer((_) async =>
+      when(() => mockGetUserListUseCase.call(NoParams())).thenAnswer((_) async =>
           Left(DioFailure.decode(
               DioException(requestOptions: RequestOptions(path: '')))));
       return homeBloc;
@@ -76,7 +76,7 @@ void main() {
       const HomeLoadingState(),
     ],
     verify: (bloc) {
-      verify(mockGetUserListUseCase.call(NoParams()));
+      verify(() => mockGetUserListUseCase.call(NoParams()));
     },
   );
 }

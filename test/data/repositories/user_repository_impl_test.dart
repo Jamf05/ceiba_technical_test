@@ -9,11 +9,11 @@ import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper.dart';
 
 void main() {
   late MockUserRemoteDataSource mockUserRemoteDataSource;
@@ -38,21 +38,21 @@ void main() {
       'should return the list of users when a call to the local data source is empty and a call to the remote data source is successful',
       () async {
         // arrange
-        when(mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
+        when(() => mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
 
-        when(mockUserRemoteDataSource.getUserList())
+        when(() => mockUserRemoteDataSource.getUserList())
             .thenAnswer((_) async => tUserModelList);
 
-        when(mockUserLocalDataSource.saveUserList(tUserModelList))
+        when(() => mockUserLocalDataSource.saveUserList(tUserModelList))
             .thenAnswer((_) async => true);
 
         // act
         final result = await repository.getUserList();
 
         // assert
-        verify(mockUserLocalDataSource.getUserList());
-        verify(mockUserRemoteDataSource.getUserList());
-        verify(mockUserLocalDataSource.saveUserList(tUserModelList));
+        verify(() => mockUserLocalDataSource.getUserList());
+        verify(() => mockUserRemoteDataSource.getUserList());
+        verify(() => mockUserLocalDataSource.saveUserList(tUserModelList));
         expect(result, equals(Right(tUserModelList)));
       },
     );
@@ -61,14 +61,14 @@ void main() {
       'should return the list of users when a call to the local data source has already previously saved the list of users',
       () async {
         // arrange
-        when(mockUserLocalDataSource.getUserList())
+        when(() => mockUserLocalDataSource.getUserList())
             .thenAnswer((_) async => tUserModelList);
 
         // act
         final result = await repository.getUserList();
 
         // assert
-        verify(mockUserLocalDataSource.getUserList());
+        verify(() => mockUserLocalDataSource.getUserList());
         expect(result, equals(Right(tUserModelList)));
       },
     );
@@ -77,9 +77,9 @@ void main() {
       'should return dio failure when a call to remote data source is unsuccessful',
       () async {
         // arrange
-        when(mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
+        when(() => mockUserLocalDataSource.getUserList()).thenAnswer((_) async => []);
 
-        when(mockUserRemoteDataSource.getUserList()).thenThrow(
+        when(() => mockUserRemoteDataSource.getUserList()).thenThrow(
             DioFailure.decode(
                 DioException(requestOptions: RequestOptions(path: ''))));
 
@@ -87,7 +87,7 @@ void main() {
         final result = await repository.getUserList();
 
         // assert
-        verify(mockUserRemoteDataSource.getUserList());
+        verify(() => mockUserRemoteDataSource.getUserList());
         expect(
             result,
             equals(Left(DioFailure.decode(
@@ -108,14 +108,14 @@ void main() {
       'should return the list of posts when a call to the datasource is successful',
       () async {
         // arrange
-        when(mockUserRemoteDataSource.getPostsList(tUserId))
+        when(() => mockUserRemoteDataSource.getPostsList(tUserId))
             .thenAnswer((_) async => tPostsModelList);
 
         // act
         final result = await repository.getPostsList(tUserId);
 
         // assert
-        verify(mockUserRemoteDataSource.getPostsList(tUserId));
+        verify(() => mockUserRemoteDataSource.getPostsList(tUserId));
         expect(result, equals(Right(tPostsModelList)));
       },
     );
@@ -124,7 +124,7 @@ void main() {
       'should return dio failure when a call to remote data source is unsuccessful',
       () async {
         // arrange
-        when(mockUserRemoteDataSource.getPostsList(tUserId)).thenThrow(
+        when(() => mockUserRemoteDataSource.getPostsList(tUserId)).thenThrow(
             DioFailure.decode(
                 DioException(requestOptions: RequestOptions(path: ''))));
 
@@ -132,7 +132,7 @@ void main() {
         final result = await repository.getPostsList(tUserId);
 
         // assert
-        verify(mockUserRemoteDataSource.getPostsList(tUserId));
+        verify(() => mockUserRemoteDataSource.getPostsList(tUserId));
         expect(
             result,
             equals(Left(DioFailure.decode(

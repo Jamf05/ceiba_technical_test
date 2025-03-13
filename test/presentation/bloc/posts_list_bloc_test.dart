@@ -8,11 +8,11 @@ import 'package:ceiba_technical_test/features/domain/entities/posts_entity.dart'
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper.dart';
 
 void main() {
   late MockGetPostsListUseCase mockGetPostsListUseCase;
@@ -41,7 +41,7 @@ void main() {
   blocTest<PostsListBloc, PostsListState>(
     'should emit [Initial, LoadingState, Initial, LoadingState] when data is gotten successfully',
     build: () {
-      when(mockGetPostsListUseCase.call(tUserId))
+      when(() => mockGetPostsListUseCase.call(tUserId))
           .thenAnswer((_) async => Right(tPostsModelList));
       return postsListBloc;
     },
@@ -54,14 +54,14 @@ void main() {
       const PostsListLoadingState(),
     ],
     verify: (bloc) {
-      verify(mockGetPostsListUseCase.call(tUserId));
+      verify(() => mockGetPostsListUseCase.call(tUserId));
     },
   );
 
   blocTest<PostsListBloc, PostsListState>(
     'should emit [Initial, LoadingState, FailureState, Initial, LoadingState] when get data is unsuccessful',
     build: () {
-      when(mockGetPostsListUseCase.call(tUserId)).thenAnswer((_) async => Left(
+      when(() => mockGetPostsListUseCase.call(tUserId)).thenAnswer((_) async => Left(
           DioFailure.decode(
               DioException(requestOptions: RequestOptions(path: '')))));
       return postsListBloc;
@@ -77,7 +77,7 @@ void main() {
       const PostsListLoadingState(),
     ],
     verify: (bloc) {
-      verify(mockGetPostsListUseCase.call(tUserId));
+      verify(() => mockGetPostsListUseCase.call(tUserId));
     },
   );
 }

@@ -8,14 +8,12 @@ import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:ceiba_technical_test/gen/assets.gen.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:sqflite/sqlite_api.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/dummy_data.dart';
 import '../../helpers/json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../helpers/test_helper.dart';
 
-class MockDatabaseException extends Mock implements DatabaseException {}
 
 void main() {
   late MockDatabaseHelper databaseHelperMock;
@@ -45,7 +43,7 @@ void main() {
       'should return an empty list',
       () async {
         // arrange
-        when(databaseHelperMock.select("user")).thenAnswer((_) async => []);
+        when(() => databaseHelperMock.select("user")).thenAnswer((_) async => []);
         // act
         final result = await userLocalDataSource.getUserList();
         // assert
@@ -57,7 +55,7 @@ void main() {
       'should return a valid list of users',
       () async {
         // arrange
-        when(databaseHelperMock.select("user"))
+        when(() => databaseHelperMock.select("user"))
             .thenAnswer((_) async => tUserModelQueryList);
         // act
         final result = await userLocalDataSource.getUserList();
@@ -68,7 +66,7 @@ void main() {
 
     test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.select("user"))
+      when(() => databaseHelperMock.select("user"))
           .thenThrow(MockDatabaseException());
       // act
       Object? object;
@@ -83,7 +81,7 @@ void main() {
 
     test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.select("user")).thenThrow(TypeError());
+      when(() => databaseHelperMock.select("user")).thenThrow(TypeError());
       // act
       Object? object;
       try {
@@ -97,7 +95,7 @@ void main() {
 
     test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.select("user")).thenThrow(FormatException());
+      when(() => databaseHelperMock.select("user")).thenThrow(FormatException());
       // act
       Object? object;
       try {
@@ -118,11 +116,11 @@ void main() {
         userLocalDataSource = UserLocalDataSourceImpl(
           databaseHelper: databaseHelperMock,
         );
-        when(databaseHelperMock.execute(any)).thenAnswer((_) async {});
+        when(() => databaseHelperMock.execute(any())).thenAnswer((_) async {});
         // act
         await userLocalDataSource.saveUserList(tUserModelList);
         // assert
-        verify(databaseHelperMock.execute(any)).called(calledCounter);
+        verify(() => databaseHelperMock.execute(any())).called(calledCounter);
       },
     );
   });
@@ -135,17 +133,17 @@ void main() {
         userLocalDataSource = UserLocalDataSourceImpl(
           databaseHelper: databaseHelperMock,
         );
-        when(databaseHelperMock.execute(any)).thenAnswer((_) async {});
+        when(() => databaseHelperMock.execute(any())).thenAnswer((_) async {});
         // act
         await userLocalDataSource.saveUserList(tUserModelList);
         // assert
-        verify(databaseHelperMock.execute(any)).called(calledCounter);
+        verify(() => databaseHelperMock.execute(any())).called(calledCounter);
       },
     );
 
         test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.execute(any))
+      when(() => databaseHelperMock.execute(any()))
           .thenThrow(MockDatabaseException());
       // act
       Object? object;
@@ -160,7 +158,7 @@ void main() {
 
     test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.execute(any)).thenThrow(TypeError());
+      when(() => databaseHelperMock.execute(any())).thenThrow(TypeError());
       // act
       Object? object;
       try {
@@ -174,7 +172,7 @@ void main() {
 
     test('should return a DatabaseException', () async {
       // arrange
-      when(databaseHelperMock.execute(any)).thenThrow(FormatException());
+      when(() => databaseHelperMock.execute(any())).thenThrow(FormatException());
       // act
       Object? object;
       try {
