@@ -57,6 +57,7 @@ Temporary Items
 build/
 coverage/
 lib/generated_plugin_registrant.dart
+test/coverage_helper_test.dart
 #pubspec.lock
 
 # Android related

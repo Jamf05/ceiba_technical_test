@@ -1,8 +1,13 @@
 # Makefile for Flutter project
 
 coverage:
-	fvm flutter test --coverage
-	lcov --ignore-errors unused --remove coverage/lcov.info 'lib/core/gen/*' 'lib/core/localization/*' 'lib/core/settings*' -o coverage/lcov.info
+	fvm flutter test --coverage --machine
+	lcov --ignore-errors unused --remove coverage/lcov.info \
+    'lib/core/gen/*' \
+    'lib/core/localization/*' \
+    'lib/core/settings/*' \
+    'lib/core/database/*' \
+    -o coverage/lcov.info
 	genhtml coverage/lcov.info -o coverage/html
 .PHONY: coverage
 

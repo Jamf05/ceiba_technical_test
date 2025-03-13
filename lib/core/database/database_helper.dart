@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ceiba_technical_test/core/utils/database_utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -159,7 +158,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
   }
 
   Future<void> _onUpgradeQuery(Database db, int version) async {
-    if (!await _doMigration(db)) await _clearAllTable(db);
+    await _clearAllTable(db);
     log("Upgrade DB, version: $version", name: "DB");
     // String table = '''
     // ''';
@@ -184,7 +183,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
   }
 
   Future<void> _onDowngradeQuery(Database db, int version) async {
-    if (!await _doMigration(db)) await _clearAllTable(db);
+    await _clearAllTable(db);
     log("Downgrade DB, version: $version", name: "DB");
     // String table = '''
     // ''';
@@ -209,43 +208,5 @@ class DatabaseHelperImpl implements DatabaseHelper {
         continue;
       }
     }
-  }
-
-  Future<bool> _doMigration(Database db) async {
-    for (var t in SchemaDB.toMigrate) {
-      try {
-        final r = await db
-            .rawQuery("SELECT sql FROM sqlite_master WHERE name = '$t'");
-        if (r.isEmpty) {
-          log("MIGRATION FAILED", name: "DB");
-          return false;
-        }
-        if (!r.first.containsKey("sql")) {
-          log("MIGRATION FAILED", name: "DB");
-          return false;
-        }
-        if (!DatabaseUtils.schemaCompare(
-            r.first["sql"].toString(), SchemaDB.tables[t])) {
-          log("MIGRATION FAILED", name: "DB");
-          return false;
-        }
-      } catch (e) {
-        log("MIGRATION FAILED", name: "DB");
-        return false;
-      }
-    }
-
-    for (var item in SchemaDB.toRebuild) {
-      try {
-        await delete(item, db: db);
-        await execute(SchemaDB.tables[item], db: db);
-      } catch (e) {
-        log("MIGRATION FAILED", name: "DB");
-        return false;
-      }
-    }
-
-    log("SUCCESSFUL MIGRATION", name: "DB");
-    return true;
   }
 }

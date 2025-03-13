@@ -8,11 +8,6 @@ abstract class HomeEvent extends Equatable {
 
 class UpdateButtonEvent extends HomeEvent {}
 
-class SetUserDataEvent extends HomeEvent {
-  final AppLocalizations l10n;
-  const SetUserDataEvent(this.l10n);
-}
-
 class GetUserDataEvent extends HomeEvent {
   const GetUserDataEvent();
 }
