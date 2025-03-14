@@ -18,23 +18,24 @@ class ButtonWidget extends StatelessWidget with BaseWidget {
   final EdgeInsetsGeometry? padding;
   final double sizeLoading;
   final double strokeWidthLoading;
-  const ButtonWidget(
-      {super.key,
-      this.text,
-      this.child,
-      this.width,
-      this.heigth = 44,
-      this.backgroundColor,
-      this.borderColor,
-      this.textStyle,
-      required this.onPressed,
-      this.disable = false,
-      this.loading = false,
-      this.sizeLoading = 30,
-      this.strokeWidthLoading = 2.5,
-      this.margin,
-      this.padding,
-      this.visible = true});
+  const ButtonWidget({
+    super.key,
+    this.text,
+    this.child,
+    this.width,
+    this.heigth = 44,
+    this.backgroundColor,
+    this.borderColor,
+    this.textStyle,
+    required this.onPressed,
+    this.disable = false,
+    this.loading = false,
+    this.sizeLoading = 30,
+    this.strokeWidthLoading = 2.5,
+    this.margin,
+    this.padding,
+    this.visible = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,8 @@ class ButtonWidget extends StatelessWidget with BaseWidget {
               : child ??
                   Text(text ?? '',
                       style: textStyle ??
-                          AppFonts.textStyleSB14.copyWith(color: theme.primaryColor)),
+                          AppFonts.textStyleSB14
+                              .copyWith(color: theme.primaryColor)),
         ),
       ),
     );
