@@ -46,6 +46,7 @@ class _PostsListPageState extends BaseBlocState<PostsListPage, PostsListBloc> {
           return RefreshIndicatorWidget(
             onRefresh: () async => bloc.add(GetPostsListEvent(widget.user.id!)),
             child: SingleChildScrollView(
+              key: const Key("ctt_posts_list_page"),
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 23),
               child: Column(

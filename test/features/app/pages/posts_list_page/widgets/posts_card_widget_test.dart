@@ -28,6 +28,8 @@ void main() {
     await tester.pumpWidget(app);
     // assert
     expect(find.byType(PostsCardWidget), findsOneWidget);
+    expect(find.text(item.title!), findsOneWidget);
+    expect(find.text(item.body!), findsOneWidget);
   });
 }
 
@@ -39,9 +41,6 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     AppSettings();
     return MaterialApp(
-      builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child!),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
