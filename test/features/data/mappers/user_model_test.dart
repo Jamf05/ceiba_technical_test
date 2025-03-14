@@ -7,8 +7,8 @@ import 'package:ceiba_technical_test/features/domain/entities/lat_lng.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/dummy_data.dart';
-import '../../helpers/json_reader.dart';
+import '../../../helpers/dummy_data.dart';
+import '../../../helpers/json_reader.dart';
 
 void main() {
   const tUserModelFromJson = UserEntity(

@@ -4,8 +4,8 @@ import 'package:ceiba_technical_test/features/data/mappers/company_mapper.dart';
 import 'package:ceiba_technical_test/features/domain/entities/company_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/dummy_data.dart';
-import '../../helpers/json_reader.dart';
+import '../../../helpers/dummy_data.dart';
+import '../../../helpers/json_reader.dart';
 
 void main() {
   const tCompanyModelFromJson = CompanyEntity(

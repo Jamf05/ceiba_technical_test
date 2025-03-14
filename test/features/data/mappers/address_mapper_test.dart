@@ -5,8 +5,8 @@ import 'package:ceiba_technical_test/features/domain/entities/address_entity.dar
 import 'package:ceiba_technical_test/features/domain/entities/lat_lng.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../helpers/dummy_data.dart';
-import '../../helpers/json_reader.dart';
+import '../../../helpers/dummy_data.dart';
+import '../../../helpers/json_reader.dart';
 
 void main() {
   const tAddressModelFromJson = AddressEntity(

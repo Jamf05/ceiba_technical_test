@@ -10,9 +10,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../helpers/dummy_data.dart';
-import '../../../helpers/json_reader.dart';
-import '../../../helpers/test_helper.dart';
+import '../../../../helpers/dummy_data.dart';
+import '../../../../helpers/json_reader.dart';
+import '../../../../helpers/test_helper.dart';
 
 void main() {
   late MockGetPostsListUseCase mockGetPostsListUseCase;
