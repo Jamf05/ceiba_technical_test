@@ -64,7 +64,9 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                   children: [
                     const Spacer(),
                     ButtonWidget(
-                        text: l10n.homePageSeePublications, onPressed: onPressed),
+                      text: l10n.homePageSeePublications,
+                      onPressed: onPressed,
+                    ),
                   ],
                 ),
               ),

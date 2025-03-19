@@ -31,71 +31,79 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(
-          titleText: l10n.homePageTitle,
-          leading: const SizedBox(),
-          leadingWidth: 0,
-        ),
-        floatingActionButton: Visibility(
-          visible: Env.environment == "DEV",
-          child: FloatingActionButton(
-            child: const Icon(Icons.cleaning_services_outlined),
-            onPressed: () {
-              sl<DatabaseHelper>().deleteDatabase();
-              sl<DatabaseHelper>().init();
-            },
-          ),
-        ),
-        body: BlocConsumer<HomeBloc, HomeState>(
-          bloc: bloc,
-          buildWhen: (previous, current) => current is HomeLoadingState,
-          listener: (context, state) {
-            if (state is HomeFailureState) {
-              final snackBar =
-                  SnackBar(content: Text(state.failure.message.toString()));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            }
+      appBar: CustomAppBar(
+        titleText: l10n.homePageTitle,
+        leading: const SizedBox(),
+        leadingWidth: 0,
+      ),
+      floatingActionButton: Visibility(
+        visible: Env.environment == "DEV",
+        child: FloatingActionButton(
+          key: const Key("ctt_cleaning_services_outlined"),
+          child: const Icon(Icons.cleaning_services_outlined),
+          onPressed: () {
+            sl<DatabaseHelper>().deleteDatabase();
+            sl<DatabaseHelper>().init();
           },
-          builder: (context, state) {
-            if (bloc.isLoadingPage) return const CircularProgressWidget();
-            return RefreshIndicatorWidget(
-              onRefresh: () async => bloc.add(const GetUserDataEvent()),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 23),
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextField(
-                      labelText: l10n.homePageSearchUser,
-                      onChanged: (String v) =>
-                          bloc.query = bloc.query.copyWith(v),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    if (bloc.filteredList.isNotEmpty)
-                      ...List.generate(
-                          bloc.filteredList.length,
-                          (i) => UserCardWidget(
-                                user: bloc.filteredList[i],
-                                onPressed: () {
-                                  nav.to(PostsListPage(
-                                    user: bloc.filteredList[i],
-                                  ));
-                                },
-                              ))
-                    else
-                      EmptyItemWidget(
-                          icon: MdiIcons.formatListBulletedSquare,
-                          message: l10n.homePageSeeListIsEmpty)
-                  ],
-                ),
+        ),
+      ),
+      body: BlocConsumer<HomeBloc, HomeState>(
+        bloc: bloc,
+        buildWhen: (previous, current) => current is HomeLoadingState,
+        listener: (context, state) {
+          if (state is HomeFailureState) {
+            final snackBar =
+                SnackBar(content: Text(state.failure.message.toString()));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
+        builder: (context, state) {
+          if (bloc.isLoadingPage) return const CircularProgressWidget();
+          return RefreshIndicatorWidget(
+            onRefresh: () async => bloc.add(const GetUserDataEvent()),
+            child: SingleChildScrollView(
+              key: const Key("ctt_home_page_single_child_scroll_view"),
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 23),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                    labelText: l10n.homePageSearchUser,
+                    onChanged: (String v) =>
+                        bloc.query = bloc.query.copyWith(v),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  if (bloc.filteredList.isNotEmpty)
+                    ...List.generate(
+                      bloc.filteredList.length,
+                      (i) => UserCardWidget(
+                        key: Key("ctt_user_card_widget_$i"),
+                        user: bloc.filteredList[i],
+                        onPressed: () {
+                          nav.to(
+                            PostsListPage(
+                              user: bloc.filteredList[i],
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  else
+                    EmptyItemWidget(
+                      icon: MdiIcons.formatListBulletedSquare,
+                      message: l10n.homePageSeeListIsEmpty,
+                    )
+                ],
               ),
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 }
