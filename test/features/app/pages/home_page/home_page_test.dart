@@ -8,8 +8,11 @@ import 'package:ceiba_technical_test/core/localization/app_localizations.dart';
 import 'package:ceiba_technical_test/core/settings/app_settings.dart';
 import 'package:ceiba_technical_test/core/validators/text_input.dart';
 import 'package:ceiba_technical_test/features/app/blocs/home_bloc/home_bloc.dart';
+import 'package:ceiba_technical_test/features/app/blocs/posts_list_bloc/posts_list_bloc.dart';
+import 'package:ceiba_technical_test/features/app/custom/widgets/empty_item_widget.dart';
 import 'package:ceiba_technical_test/features/app/pages/home_page/home_page.dart';
 import 'package:ceiba_technical_test/features/app/pages/posts_list_page/posts_list_page.dart';
+import 'package:ceiba_technical_test/features/data/mappers/posts_mapper.dart';
 import 'package:ceiba_technical_test/features/data/mappers/user_mapper.dart';
 import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,20 +29,30 @@ class MockHomeBloc extends MockBloc<HomeEvent, HomeState> implements HomeBloc {}
 
 class MockDatabaseHelper extends Mock implements DatabaseHelper {}
 
+class MockPostsListBloc extends MockBloc<PostsListEvent, PostsListState>
+    implements PostsListBloc {}
+
 void main() {
   late MockHomeBloc mockBloc;
   late MockDatabaseHelper mockDatabaseHelper;
+  late MockPostsListBloc mockPostsListBloc;
   late List<UserEntity> tUserModelList;
 
   const cleaningServicesOutlinedKey = Key("ctt_cleaning_services_outlined");
-  const homePageSingleChildScrollViewKey = Key("ctt_home_page_single_child_scroll_view");
+  const homePageSingleChildScrollViewKey =
+      Key("ctt_home_page_single_child_scroll_view");
   const userCardWidgetKeyZero = Key("ctt_user_card_widget_0");
 
   setUp(() async {
     await Env.load(fileName: Assets.env.envDevelopment);
     mockBloc = MockHomeBloc();
     mockDatabaseHelper = MockDatabaseHelper();
-    await _buildDependecies(mockBloc, mockDatabaseHelper);
+    mockPostsListBloc = MockPostsListBloc();
+    await _buildDependecies(
+      mockBloc,
+      mockDatabaseHelper,
+      mockPostsListBloc,
+    );
 
     final List tUserModelRawData = json.decode(
       JsonHelpers.readJson(DummyData.usersListResponse),
@@ -169,9 +182,21 @@ void main() {
     // arrange
     final app = _App();
 
+    final List tPostsModelRawData = json.decode(
+      JsonHelpers.readJson(DummyData.postsListResponse),
+    );
+
+    final tPostsModelList = tPostsModelRawData
+        .map((e) => PostMapper().fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+
     when(() => mockBloc.isLoadingPage).thenReturn(false);
     when(() => mockBloc.filteredList).thenReturn(tUserModelList);
     when(() => mockBloc.state).thenReturn(const HomeInitial());
+
+    when(() => mockPostsListBloc.isLoadingPage).thenReturn(false);
+    when(() => mockPostsListBloc.state).thenReturn(const PostsListInitial());
+    when(() => mockPostsListBloc.postsList).thenReturn(tPostsModelList);
 
     // act
     await tester.pumpWidget(app);
@@ -180,17 +205,36 @@ void main() {
     await tester.pumpAndSettle();
 
     // assert
-    // expect(find.byType(PostsListPage), findsOneWidget);
-    // expect(find.byKey(userCardWidgetKeyZero), findsOneWidget);
+    expect(find.byType(PostsListPage), findsOneWidget);
+  });
+
+  testWidgets(
+      'Veniam tempor aliquip dolore duis magna anim elit nisi veniam amet quis ea elit voluptate.',
+      (WidgetTester tester) async {
+    // arrange
+    final app = _App();
+
+    when(() => mockBloc.isLoadingPage).thenReturn(false);
+    when(() => mockBloc.filteredList).thenReturn([]);
+    when(() => mockBloc.state).thenReturn(const HomeInitial());
+
+    // act
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
+
+    // assert
+    expect(find.byType(HomePage), findsOneWidget);
+    expect(find.byType(EmptyItemWidget), findsOneWidget);
   });
 }
 
-Future<void> _buildDependecies(
-    HomeBloc mockBloc, DatabaseHelper mockDatabaseHelper) async {
+Future<void> _buildDependecies(HomeBloc mockBloc,
+    DatabaseHelper mockDatabaseHelper, PostsListBloc mockPostsListBloc) async {
   final sl = GetIt.instance;
   await sl.reset();
   sl.registerFactory<HomeBloc>(() => mockBloc);
   sl.registerFactory<DatabaseHelper>(() => mockDatabaseHelper);
+  sl.registerFactory<PostsListBloc>(() => mockPostsListBloc);
 }
 
 class _App extends StatelessWidget {

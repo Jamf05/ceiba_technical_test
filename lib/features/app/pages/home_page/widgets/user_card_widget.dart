@@ -4,11 +4,13 @@ import 'package:ceiba_technical_test/features/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 
 class UserCardWidget extends StatelessWidget with BaseWidget {
+  final Key? buttonKey;
   final UserEntity user;
   final void Function()? onPressed;
   final bool showButton;
   const UserCardWidget({
     super.key,
+    this.buttonKey,
     required this.user,
     this.onPressed,
     this.showButton = true,
@@ -64,6 +66,7 @@ class UserCardWidget extends StatelessWidget with BaseWidget {
                   children: [
                     const Spacer(),
                     ButtonWidget(
+                      key: buttonKey,
                       text: l10n.homePageSeePublications,
                       onPressed: onPressed,
                     ),

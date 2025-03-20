@@ -82,7 +82,7 @@ class HomePageState extends BaseBlocState<HomePage, HomeBloc> {
                     ...List.generate(
                       bloc.filteredList.length,
                       (i) => UserCardWidget(
-                        key: Key("ctt_user_card_widget_$i"),
+                        buttonKey: Key("ctt_user_card_widget_$i"),
                         user: bloc.filteredList[i],
                         onPressed: () {
                           nav.to(
