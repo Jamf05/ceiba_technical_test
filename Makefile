@@ -7,6 +7,7 @@ coverage:
     'lib/core/localization/*' \
     'lib/core/settings/*' \
     'lib/core/database/*' \
+    'lib/core/utils/navigation.dart' \
     -o coverage/lcov.info
 	genhtml coverage/lcov.info -o coverage/html
 .PHONY: coverage
